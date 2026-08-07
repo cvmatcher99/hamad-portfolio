@@ -570,12 +570,15 @@ var mPt=[0,-3], mTgt=[0,-3], mAmt=0, mGoal=0;
 /* The Level — device tilt, counter-applied. baseG is a slowly drifting neutral, so
    the field re-levels to however the phone is actually being held. */
 var tiltA=0, tiltGoalA=0, tiltX=0, tiltGoalX=0, baseG=null;
+/* Scroll parallax — the same idea for every phone, needing no sensor at all:
+   the field lags behind the reading and settles back. */
+var paraY=0, paraGoal=0;
 var drift = reduced?0:0.012, driftGoal=drift;
 
 function compile(src,type){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
 function initGL(){
   var vs="attribute vec2 aFrom;attribute vec2 aTo;attribute vec4 aMeta;"+
-  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt;uniform vec2 uHoldPt,uAsp,uMouse,uTilt;varying float vA;"+
+  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt;uniform vec2 uHoldPt,uAsp,uMouse;uniform vec3 uTilt;varying float vA;"+
   "float es(float t){return t*t*(3.0-2.0*t);}"+
   "void main(){float m=es(clamp(uMorph,0.0,1.0));vec2 p=mix(aFrom,aTo,m);float s=aMeta.x;"+
   "p+=vec2(sin(uTime*(0.3+fract(s*7.0)*0.7)+s*40.0),cos(uTime*(0.25+fract(s*13.0)*0.6)+s*23.0))*uDrift*(1.0-uHold*0.92);"+
@@ -585,7 +588,10 @@ function initGL(){
   /* The Level: the field counter-rotates against the device tilt, then settles back
      to horizontal. It never mirrors the hand that holds it — it resists it. */
   "float ta=uTilt.x*(1.0-h);vec2 q=vec2(p.x/uAsp.x,p.y);float tc=cos(ta),ts=sin(ta);"+
-  "q=vec2(q.x*tc-q.y*ts,q.x*ts+q.y*tc);p=vec2(q.x*uAsp.x+uTilt.y*(1.0-h),q.y);"+
+  "q=vec2(q.x*tc-q.y*ts,q.x*ts+q.y*tc);p=vec2(q.x*uAsp.x,q.y);"+
+  /* Rotation alone is invisible on a scattered cloud — depth-scaled translation is
+     what the eye actually reads as a room holding its own against your hand. */
+  "p+=vec2(uTilt.y,uTilt.z)*(0.35+1.3*aMeta.z)*(1.0-h);"+
   "p=mix(p,ring,h);vA=aMeta.w*(0.55+0.45*h);"+
   "gl_Position=vec4(p,0.0,1.0);gl_PointSize=aMeta.y*(1.0+h*0.4)*uPx;}";
   var fs="precision mediump float;varying float vA;"+
@@ -703,9 +709,10 @@ function frame(ts){
   mPt[1]+=(mTgt[1]-mPt[1])*Math.min(1,dt*5);
   gl.uniform2f(U.uMouse,mPt[0],mPt[1]);
   gl.uniform1f(U.uMAmt,mAmt);
-  tiltA+=(tiltGoalA-tiltA)*Math.min(1,dt*1.8);
-  tiltX+=(tiltGoalX-tiltX)*Math.min(1,dt*1.8);
-  gl.uniform2f(U.uTilt,tiltA,tiltX);
+  tiltA+=(tiltGoalA-tiltA)*Math.min(1,dt*2.6);
+  tiltX+=(tiltGoalX-tiltX)*Math.min(1,dt*2.6);
+  paraGoal*=Math.exp(-dt*5); paraY+=(paraGoal-paraY)*Math.min(1,dt*6);
+  gl.uniform3f(U.uTilt,tiltA,tiltX,paraY);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.POINTS,0,N);
   rafId=requestAnimationFrame(frame);
@@ -765,8 +772,11 @@ rvs.forEach(function(el){ io2.observe(el); });
 var lastY=window.scrollY, lastT=performance.now(), vel=0, dwellTimer=null;
 window.addEventListener('scroll',function(){
   var now=performance.now(), y=window.scrollY;
-  var v=Math.abs(y-lastY)/Math.max(16,now-lastT)*1000;
+  var sv=(y-lastY)/Math.max(16,now-lastT)*1000;
+  var v=Math.abs(sv);
   vel=vel*0.8+v*0.2; lastY=y; lastT=now;
+  /* the field lags a little behind the reading, then settles — depth, felt not seen */
+  if(!reduced) paraGoal=Math.max(-0.075,Math.min(0.075,sv*0.00004));
   driftGoal = reduced?0 : (vel>1400 ? 0.005 : 0.012);
   clearTimeout(dwellTimer);
   dwellTimer=setTimeout(function(){
@@ -874,10 +884,10 @@ if(coarse && !reduced && window.DeviceOrientationEvent){
   window.addEventListener('deviceorientation',function(e){
     if(e.gamma==null) return;
     if(baseG===null){ baseG=e.gamma; return; }
-    baseG += (e.gamma-baseG)*0.004;               // the neutral drifts back to level
-    var dg=Math.max(-28,Math.min(28,e.gamma-baseG));
-    tiltGoalA = -dg*0.0032;                        // up to ~5° counter-rotation
-    tiltGoalX = -dg*0.0022;                        // and a whisper of counter-slide
+    baseG += (e.gamma-baseG)*0.0022;              // the neutral re-levels over ~7s
+    var dg=Math.max(-30,Math.min(30,e.gamma-baseG));
+    tiltGoalA = -dg*0.0038;                        // ~6.5° counter-rotation
+    tiltGoalX = -dg*0.0045;                        // and the counter-slide you can see
   },{passive:true});
 }
 window.addEventListener('contextmenu',function(e){ if(held){ e.preventDefault(); } });

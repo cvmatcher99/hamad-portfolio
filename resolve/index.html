@@ -669,10 +669,27 @@ var FORMS={
     } },
   flows:function(a){ for(var i=0;i<N;i++){ var lane=i%9, x=Math.random();
       put(a,i, x, 0.22+lane*0.062 + x*0.1 + (Math.random()-0.5)*0.012); } },
-  wells:function(a){ for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.75){ var col=i%110; var x=0.06+ (col/109)*0.88;
-        put(a,i, x+(Math.random()-0.5)*0.004, 0.36+Math.pow(Math.random(),1.6)*0.26); }
-      else put(a,i, Math.random(), 0.33+(Math.random()-0.5)*0.02);
+  wells:function(a){
+    /* A desert well, readable at a glance: circular rim, A-frame pulley, rope and
+       bucket into the dark — and along the horizon, the distant others of the 110. */
+    var xs=Math.max(0.4,Math.min(1,ASP*0.7));
+    var cx=0.44, rimY=0.60, rx=0.105*xs;
+    var DW=[0.05,0.13,0.21,0.29,0.63,0.72,0.81,0.90];
+    for(var i=0;i<N;i++){ var t=Math.random();
+      if(t<0.13){ put(a,i, 0.03+Math.random()*0.94, 0.625+(Math.random()-0.5)*0.012); }
+      else if(t<0.21){ var d=DW[i%DW.length];
+        put(a,i, d+(g()-0.5)*0.018, 0.612+(g()-0.5)*0.014); }
+      else if(t<0.41){ var an=Math.random()*6.28318, rr=rx*(0.90+Math.random()*0.18);
+        put(a,i, cx+Math.cos(an)*rr, rimY+Math.sin(an)*0.030); }
+      else if(t<0.52){ var sd=Math.random()<0.5?-1:1;
+        put(a,i, cx+sd*rx*(0.88+Math.random()*0.14), rimY+Math.random()*0.075); }
+      else if(t<0.74){ var sp=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sp*0.14*xs*(1-s)+(Math.random()-0.5)*0.005, rimY+0.012-(rimY+0.012-0.345)*s); }
+      else if(t<0.80){ put(a,i, cx+(g()-0.5)*0.026, 0.345+(g()-0.5)*0.022); }
+      else if(t<0.90){ var rp=Math.random();
+        if(rp<0.30) put(a,i, cx+(g()-0.5)*0.020, 0.555+(g()-0.5)*0.018);
+        else put(a,i, cx+(Math.random()-0.5)*0.004, 0.365+Math.random()*0.185); }
+      else put(a,i, Math.random(), Math.random());
     } },
   bloom:function(a){ var cx=0.5, cy=0.5;
     for(var i=0;i<N;i++){ var t=Math.random(), an=Math.random()*6.28318;
@@ -711,13 +728,31 @@ var FORMS={
         put(a,i, 0.14+Math.cos(an)*rr*0.62, 0.5+Math.sin(an)*rr); }
       else put(a,i, Math.random(), Math.random());
     } },
-  colTall:function(a){ for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.85) put(a,i, 0.46+Math.random()*0.08, 0.16+Math.random()*0.62);
+  /* The 98.7% moment as a cross-section. colTall: the deep well exposed — rough
+     casing walls descending to water. colBase: his protector installed — the same
+     well, walls clean, a dense shield sleeved around the depth. Scroll = install. */
+  colTall:function(a){
+    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.46;
+    for(var i=0;i<N;i++){ var t=Math.random();
+      if(t<0.14){ put(a,i, 0.08+Math.random()*0.84, 0.24+(Math.random()-0.5)*0.014); }
+      else if(t<0.64){ var sd=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sd*0.032*xs+(Math.random()-0.5)*0.014, 0.24+s*0.58); }
+      else if(t<0.74){ put(a,i, cx+(g()-0.5)*0.10*xs, 0.845+(g()-0.5)*0.028); }
       else put(a,i, Math.random(), Math.random());
     } },
-  colBase:function(a){ for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.8) put(a,i, 0.45+Math.random()*0.1, 0.76+Math.random()*0.02);
-      else put(a,i, 0.2+Math.random()*0.6, 0.1+Math.random()*0.65);
+  colBase:function(a){
+    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.46;
+    for(var i=0;i<N;i++){ var t=Math.random();
+      if(t<0.12){ put(a,i, 0.08+Math.random()*0.84, 0.24+(Math.random()-0.5)*0.014); }
+      else if(t<0.50){ var sd=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sd*0.032*xs+(Math.random()-0.5)*0.004, 0.24+s*0.58); }
+      else if(t<0.82){ var r2=Math.random();
+        if(r2<0.85){ var sp=Math.random()<0.5?-1:1;
+          put(a,i, cx+sp*(0.050+Math.random()*0.012)*xs, 0.52+Math.random()*0.28); }
+        else { var an=Math.PI*Math.random();
+          put(a,i, cx+Math.cos(an+Math.PI)*0.055*xs, 0.80+Math.sin(an)*0.035); } }
+      else if(t<0.90){ put(a,i, cx+(g()-0.5)*0.10*xs, 0.845+(g()-0.5)*0.028); }
+      else put(a,i, Math.random(), Math.random());
     } },
   seal:function(a){ var cx=0.5, cy=0.44;
     for(var i=0;i<N;i++){ var t=Math.random(), an=Math.random()*6.28318;

@@ -173,6 +173,11 @@
     max-width:min(74vw,330px); padding:34px 42px; border-radius:50%;
     background:radial-gradient(closest-side, rgba(12,16,20,.96), rgba(12,16,20,.82) 62%, rgba(12,16,20,0))}
   #rep.on{opacity:1; transform:translate(-50%,-50%) scale(1)}
+  /* The hold silences the room: the page recedes so the one reported truth stands
+     alone. Without this the report collides with the text it is reporting on. */
+  main,#top{transition:opacity .5s var(--ease)}
+  body.holding main{opacity:.14}
+  body.holding #top{opacity:.12}
   body.holding, body.holding *{user-select:none; -webkit-user-select:none}
   #holdcue,#sealcue{user-select:none; -webkit-user-select:none}
   #rep b{font-family:var(--mono); font-weight:500; font-size:13px; letter-spacing:.14em; color:var(--bronze); display:block; text-transform:uppercase}
@@ -182,9 +187,39 @@
     background:radial-gradient(circle, rgba(237,231,218,.8), rgba(237,231,218,0) 70%);
     transition:transform 1.3s var(--ease), left 1.3s var(--ease), top 1.3s var(--ease); }
 
+  /* phone composition — the number is the object, the sentence is its caption */
   @media (max-width:720px){
     .stmt{max-width:none}
-    .exhibit{padding:10vh 0}
+    .exhibit{display:flex; flex-direction:column; padding:11vh 0}
+    .exhibit .ex-eyebrow{order:1}
+    .exhibit .plate{order:2}
+    .exhibit .kpirow,.exhibit .kpis3{order:3; margin-top:1.2em}
+    .exhibit .stmt{order:4; margin-top:.75em}
+    .exhibit .deepwrap{order:5}
+    .exhibit .teach{order:6}
+    .exhibit .stmt .en{font-size:clamp(1.9rem,7.2vw,2.6rem)}
+    .exhibit .stmt .ar{font-size:clamp(1.6rem,6.2vw,2.2rem)}
+    .kpis3{grid-template-columns:1fr; gap:20px}
+    .corridor{grid-template-columns:1fr}
+    /* on a small screen the field must recede — the text always wins */
+    #vig{background:radial-gradient(ellipse at 50% 42%, transparent 38%, rgba(5,7,10,.6) 100%), rgba(12,16,20,.44)}
+    #top{padding-top:calc(14px + env(safe-area-inset-top))}
+    #top:before{content:''; position:absolute; inset:0 0 -20px 0; z-index:-1;
+      background:linear-gradient(180deg, rgba(12,16,20,.94) 45%, rgba(12,16,20,0))}
+    #langs button{min-height:44px; min-width:44px; display:flex; align-items:center; justify-content:center}
+    .more{min-height:44px}
+    .channels a{min-height:44px; display:inline-flex; align-items:center; padding:12px 4px}
+    .channels{padding-bottom:env(safe-area-inset-bottom)}
+    footer{padding-bottom:calc(42px + env(safe-area-inset-bottom))}
+  }
+  /* phone held sideways — keep a chapter to a single screen */
+  @media (max-height:520px) and (orientation:landscape){
+    .beat{min-height:auto; padding:14vh 0}
+    .beat.short{min-height:auto}
+    .exhibit{padding:8vh 0}
+    .stmt .en{font-size:clamp(1.6rem,4.6vw,2.4rem)}
+    .stmt .ar{font-size:clamp(1.4rem,4vw,2rem)}
+    #sealbox{width:min(38vw,190px)}
   }
   /* desktop composition — the museum wall */
   @media (min-width:980px){
@@ -527,23 +562,30 @@ var canvas=document.getElementById('field');
 var gl=canvas.getContext('webgl',{alpha:false,antialias:false,depth:false,stencil:false,powerPreference:'low-power'});
 var GLOK=!!gl;
 var N = coarse?4200:9000; if(reduced) N=3200;
-var W=0,H=0,ASP=1,DPR=Math.min(window.devicePixelRatio||1,1.75);
+var W=0,H=0,ASP=1,DPR=Math.min(window.devicePixelRatio||1,coarse?1.5:1.75);
 var prog, aFromB, aToB, aMetaB, U={};
 var from=new Float32Array(N*2), to=new Float32Array(N*2), meta=new Float32Array(N*4);
 var morph=1, morphT0=0, curForm='', holding=false, holdV=0, holdPt=[0,0], simT=0, lastTs=0;
 var mPt=[0,-3], mTgt=[0,-3], mAmt=0, mGoal=0;
+/* The Level — device tilt, counter-applied. baseG is a slowly drifting neutral, so
+   the field re-levels to however the phone is actually being held. */
+var tiltA=0, tiltGoalA=0, tiltX=0, tiltGoalX=0, baseG=null;
 var drift = reduced?0:0.012, driftGoal=drift;
 
 function compile(src,type){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
 function initGL(){
   var vs="attribute vec2 aFrom;attribute vec2 aTo;attribute vec4 aMeta;"+
-  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt;uniform vec2 uHoldPt,uAsp,uMouse;varying float vA;"+
+  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt;uniform vec2 uHoldPt,uAsp,uMouse,uTilt;varying float vA;"+
   "float es(float t){return t*t*(3.0-2.0*t);}"+
   "void main(){float m=es(clamp(uMorph,0.0,1.0));vec2 p=mix(aFrom,aTo,m);float s=aMeta.x;"+
   "p+=vec2(sin(uTime*(0.3+fract(s*7.0)*0.7)+s*40.0),cos(uTime*(0.25+fract(s*13.0)*0.6)+s*23.0))*uDrift*(1.0-uHold*0.92);"+
   "float h=es(uHold);float ang=s*6.28318+uTime*0.02;float rr=(0.36+0.64*aMeta.z)*0.62;"+
   "vec2 ring=uHoldPt+vec2(cos(ang)*uAsp.x,sin(ang))*rr;"+
   "vec2 md=p-uMouse;float ml=max(length(md),0.001);p+=(md/ml)*exp(-ml*ml*14.0)*uMAmt*(1.0-h);"+
+  /* The Level: the field counter-rotates against the device tilt, then settles back
+     to horizontal. It never mirrors the hand that holds it — it resists it. */
+  "float ta=uTilt.x*(1.0-h);vec2 q=vec2(p.x/uAsp.x,p.y);float tc=cos(ta),ts=sin(ta);"+
+  "q=vec2(q.x*tc-q.y*ts,q.x*ts+q.y*tc);p=vec2(q.x*uAsp.x+uTilt.y*(1.0-h),q.y);"+
   "p=mix(p,ring,h);vA=aMeta.w*(0.55+0.45*h);"+
   "gl_Position=vec4(p,0.0,1.0);gl_PointSize=aMeta.y*(1.0+h*0.4)*uPx;}";
   var fs="precision mediump float;varying float vA;"+
@@ -554,7 +596,7 @@ function initGL(){
   gl.attachShader(prog,compile(fs,gl.FRAGMENT_SHADER));
   gl.linkProgram(prog); gl.useProgram(prog);
   aFromB=gl.createBuffer(); aToB=gl.createBuffer(); aMetaB=gl.createBuffer();
-  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
+  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt','uTilt'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
   gl.clearColor(0.047,0.063,0.078,1);
   for(var i=0;i<N;i++){ meta[i*4]=Math.random(); meta[i*4+1]=1.2+Math.random()*1.5; meta[i*4+2]=Math.random(); meta[i*4+3]=0.35+Math.random()*0.5; }
@@ -568,7 +610,10 @@ function resize(){
   W=window.innerWidth; H=window.innerHeight;
   ASP=Math.min(1.4,H/W);
   canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
-  if(GLOK){ gl.viewport(0,0,canvas.width,canvas.height); if(curForm) setForm(curForm,true); }
+  /* Formations live in normalised clip space, so a resize leaves them untouched.
+     Regenerating here would restart the morph — and mobile browsers fire resize
+     every time the address bar hides, which re-scattered the field mid-read. */
+  if(GLOK){ gl.viewport(0,0,canvas.width,canvas.height); }
 }
 /* formation generators — unit uv space, converted to clip */
 function put(arr,i,u,v){ arr[i*2]=u*2-1; arr[i*2+1]=1-v*2; }
@@ -658,6 +703,9 @@ function frame(ts){
   mPt[1]+=(mTgt[1]-mPt[1])*Math.min(1,dt*5);
   gl.uniform2f(U.uMouse,mPt[0],mPt[1]);
   gl.uniform1f(U.uMAmt,mAmt);
+  tiltA+=(tiltGoalA-tiltA)*Math.min(1,dt*1.8);
+  tiltX+=(tiltGoalX-tiltX)*Math.min(1,dt*1.8);
+  gl.uniform2f(U.uTilt,tiltA,tiltX);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.POINTS,0,N);
   rafId=requestAnimationFrame(frame);
@@ -743,14 +791,20 @@ var holdTimer=null, holdStart=0, held=false;
 function px2clip(x,y){ return [ (x/W)*2-1, 1-(y/H)*2 ]; }
 function beginHold(x,y){
   if(held) return; held=true; holdStart=performance.now();
-  holdPt=px2clip(x,y); holding=true;
+  /* On touch the order must bloom ABOVE the thumb — geometry formed under the hand
+     is geometry nobody sees. It still leans toward where you pressed, at 25%. */
+  var ox = coarse ? W*0.5+(x-W*0.5)*0.25 : x;
+  var oy = coarse ? Math.min(H*0.54, Math.max(H*0.24, y-H*0.20)) : y;
+  holdPt=px2clip(ox,oy); holding=true;
   document.body.classList.add('holding');
   try{ var s=window.getSelection&&window.getSelection(); if(s&&s.removeAllRanges) s.removeAllRanges(); }catch(e){}
+  /* one 8ms tick as the field reaches stillness — the room settling in the hand */
+  if(navigator.vibrate){ setTimeout(function(){ if(holding){ try{ navigator.vibrate(8); }catch(e){} } },560); }
   if(activeEl){
     var l=document.body.classList.contains('ar')?'ar':'en';
     repB.innerHTML=''; repB.textContent=activeEl.getAttribute('data-rep-'+l)||'';
-    var rx=Math.min(Math.max(x,150),W-150);
-    var ry=coarse? H-150 : Math.min(H-140,Math.max(140,y));
+    var rx=coarse? ox : Math.min(Math.max(x,150),W-150);
+    var ry=coarse? oy : Math.min(H-140,Math.max(140,y));
     rep.style.left=rx+'px'; rep.style.top=ry+'px';
     setTimeout(function(){ if(holding) rep.classList.add('on'); },420);
   }
@@ -779,21 +833,53 @@ function signSeal(){
   document.getElementById('cueEn').textContent='Sealed.';
   document.getElementById('cueAr').textContent='خُتِم.';
 }
-var lastPt=[0,0];
+var lastPt=[0,0], downPt=null;
 window.addEventListener('pointerdown',function(e){
   var t=e.target;
   if(t && t.closest && t.closest('a,button,#langs')) return;
-  lastPt=[e.clientX,e.clientY];
+  lastPt=[e.clientX,e.clientY]; downPt=[e.clientX,e.clientY];
   clearTimeout(holdTimer);
-  holdTimer=setTimeout(function(){ beginHold(lastPt[0],lastPt[1]); },240);
+  /* guard: on a throttled or slow device this timer can arrive after the finger has
+     already lifted — without downPt the room would stay ordered forever. */
+  holdTimer=setTimeout(function(){ if(downPt) beginHold(lastPt[0],lastPt[1]); },240);
 });
-window.addEventListener('pointerup',function(e){ clearTimeout(holdTimer); endHold(e.clientX,e.clientY); });
-window.addEventListener('pointercancel',function(){ clearTimeout(holdTimer); endHold(); });
-window.addEventListener('blur',function(){ clearTimeout(holdTimer); endHold(); });
+function release(e){
+  downPt=null; clearTimeout(holdTimer);
+  if(e) endHold(e.clientX,e.clientY); else endHold();
+  mGoal=0;
+}
+window.addEventListener('pointerup',function(e){ release(e); });
+window.addEventListener('pointercancel',function(){ release(); });
+window.addEventListener('blur',function(){ release(); });
 window.addEventListener('pointermove',function(e){
-  if(e.pointerType==='touch' || reduced) return;
-  mTgt=px2clip(e.clientX,e.clientY); mGoal=0.05;
+  if(reduced) return;
+  /* A finger travelling is a finger scrolling — never a hold. Intent is stillness. */
+  if(downPt){
+    var dx=e.clientX-downPt[0], dy=e.clientY-downPt[1];
+    if(dx*dx+dy*dy > (held?900:144)){
+      clearTimeout(holdTimer);
+      if(held){ held=false; holding=false; rep.classList.remove('on'); document.body.classList.remove('holding'); }
+      downPt=null;
+    }
+  }
+  /* Touch is the mouse's replacement: the field parts around the thumb as it travels. */
+  mTgt=px2clip(e.clientX,e.clientY);
+  mGoal = e.pointerType==='touch' ? 0.065 : 0.05;
 },{passive:true});
+
+/* ---------- The Level — device tilt ---------- */
+/* No permission is ever requested: the room does not ask the visitor for anything.
+   Where motion data is already granted it works; where it isn't, nothing is missing. */
+if(coarse && !reduced && window.DeviceOrientationEvent){
+  window.addEventListener('deviceorientation',function(e){
+    if(e.gamma==null) return;
+    if(baseG===null){ baseG=e.gamma; return; }
+    baseG += (e.gamma-baseG)*0.004;               // the neutral drifts back to level
+    var dg=Math.max(-28,Math.min(28,e.gamma-baseG));
+    tiltGoalA = -dg*0.0032;                        // up to ~5° counter-rotation
+    tiltGoalX = -dg*0.0022;                        // and a whisper of counter-slide
+  },{passive:true});
+}
 window.addEventListener('contextmenu',function(e){ if(held){ e.preventDefault(); } });
 window.addEventListener('keydown',function(e){
   if((e.code==='Space') && !e.repeat && !(e.target && e.target.closest && e.target.closest('a,button,input,textarea'))){

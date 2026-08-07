@@ -728,30 +728,36 @@ var FORMS={
         put(a,i, 0.14+Math.cos(an)*rr*0.62, 0.5+Math.sin(an)*rr); }
       else put(a,i, Math.random(), Math.random());
     } },
-  /* The 98.7% moment as a cross-section. colTall: the deep well exposed — rough
-     casing walls descending to water. colBase: his protector installed — the same
-     well, walls clean, a dense shield sleeved around the depth. Scroll = install. */
+  /* The 98.7% moment as a FULL-WIDTH geological cross-section, occlusion-proof:
+     surface split at the mouth, soil strata stepping down both flanks, a wide
+     thick-walled shaft to the water. colBase installs the symmetric shield. */
   colTall:function(a){
-    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.46;
+    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.5, top=0.30, bot=0.80, hw=0.075*xs;
     for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.14){ put(a,i, 0.08+Math.random()*0.84, 0.24+(Math.random()-0.5)*0.014); }
-      else if(t<0.64){ var sd=Math.random()<0.5?-1:1, s=Math.random();
-        put(a,i, cx+sd*0.032*xs+(Math.random()-0.5)*0.014, 0.24+s*0.58); }
-      else if(t<0.74){ put(a,i, cx+(g()-0.5)*0.10*xs, 0.845+(g()-0.5)*0.028); }
+      if(t<0.17){ var sd=Math.random()<0.5?-1:1;
+        put(a,i, cx+sd*(hw+0.02+Math.random()*0.40), top+(Math.random()-0.5)*0.016); }
+      else if(t<0.33){ var L=1+(i%3), s2=Math.random()<0.5?-1:1;
+        put(a,i, cx+s2*(hw+0.04+Math.random()*0.36), top+0.135*L+(Math.random()-0.5)*0.012); }
+      else if(t<0.66){ var sw=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sw*hw+(Math.random()-0.5)*0.020, top+s*(bot-top)); }
+      else if(t<0.78){ put(a,i, cx+(g()-0.5)*hw*1.7, bot+0.025+(g()-0.5)*0.03); }
       else put(a,i, Math.random(), Math.random());
     } },
   colBase:function(a){
-    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.46;
+    var xs=Math.max(0.4,Math.min(1,ASP*0.7)), cx=0.5, top=0.30, bot=0.80, hw=0.075*xs;
     for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.12){ put(a,i, 0.08+Math.random()*0.84, 0.24+(Math.random()-0.5)*0.014); }
-      else if(t<0.50){ var sd=Math.random()<0.5?-1:1, s=Math.random();
-        put(a,i, cx+sd*0.032*xs+(Math.random()-0.5)*0.004, 0.24+s*0.58); }
+      if(t<0.13){ var sd=Math.random()<0.5?-1:1;
+        put(a,i, cx+sd*(hw+0.02+Math.random()*0.40), top+(Math.random()-0.5)*0.016); }
+      else if(t<0.27){ var L=1+(i%3), s2=Math.random()<0.5?-1:1;
+        put(a,i, cx+s2*(hw+0.04+Math.random()*0.36), top+0.135*L+(Math.random()-0.5)*0.012); }
+      else if(t<0.52){ var sw=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sw*hw+(Math.random()-0.5)*0.006, top+s*(bot-top)); }
       else if(t<0.82){ var r2=Math.random();
-        if(r2<0.85){ var sp=Math.random()<0.5?-1:1;
-          put(a,i, cx+sp*(0.050+Math.random()*0.012)*xs, 0.52+Math.random()*0.28); }
+        if(r2<0.80){ var sp=Math.random()<0.5?-1:1;
+          put(a,i, cx+sp*(hw+0.022+Math.random()*0.014), 0.44+Math.random()*(bot-0.44)); }
         else { var an=Math.PI*Math.random();
-          put(a,i, cx+Math.cos(an+Math.PI)*0.055*xs, 0.80+Math.sin(an)*0.035); } }
-      else if(t<0.90){ put(a,i, cx+(g()-0.5)*0.10*xs, 0.845+(g()-0.5)*0.028); }
+          put(a,i, cx+Math.cos(Math.PI+an)*(hw+0.028), bot+Math.sin(an)*0.05); } }
+      else if(t<0.92){ put(a,i, cx+(g()-0.5)*hw*1.7, bot+0.025+(g()-0.5)*0.03); }
       else put(a,i, Math.random(), Math.random());
     } },
   seal:function(a){ var cx=0.5, cy=0.44;

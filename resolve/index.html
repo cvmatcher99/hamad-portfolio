@@ -682,11 +682,32 @@ var FORMS={
   grid:function(a){ var cols=26, rows=Math.ceil(N/cols);
     for(var i=0;i<N;i++){ var cx=i%cols, cy=(i/cols)|0;
       put(a,i, 0.1+ (cx/(cols-1))*0.8 + (Math.random()-0.5)*0.006, 0.3+ (cy/rows)*0.45 + (Math.random()-0.5)*0.006); } },
-  graph:function(a){ var nodes=[],i; for(i=0;i<22;i++) nodes.push([0.12+Math.random()*0.76, 0.24+Math.random()*0.5]);
-    for(i=0;i<N;i++){ var t=Math.random();
-      if(t<0.5){ var n1=nodes[(Math.random()*22)|0], n2=nodes[(Math.random()*22)|0], k=Math.random();
-        put(a,i, n1[0]+(n2[0]-n1[0])*k, n1[1]+(n2[1]-n1[1])*k); }
-      else if(t<0.9){ var nd=nodes[i%22]; put(a,i, nd[0]+(g()-0.5)*0.05, nd[1]+(g()-0.5)*0.05); }
+  graph:function(a){
+    /* A neural network drawn legibly: a generation enters on the right, layers
+       converge right-to-left (the Arabic reading direction) into one bright
+       output node — the job. The engine's story in a single figure. */
+    var layers=[8,6,4,1], LX=[0.86,0.62,0.38,0.14], SP=[0.072,0.095,0.13,0];
+    var nodes=[], li, k;
+    for(li=0;li<4;li++) for(k=0;k<layers[li];k++)
+      nodes.push([LX[li], 0.5+(k-(layers[li]-1)/2)*SP[li], li]);
+    var edges=[];
+    for(li=0;li<3;li++){
+      var A=[], B=[], j;
+      for(j=0;j<nodes.length;j++){ if(nodes[j][2]===li) A.push(nodes[j]); if(nodes[j][2]===li+1) B.push(nodes[j]); }
+      A.forEach(function(n1){
+        B.slice().sort(function(p,q){return Math.abs(p[1]-n1[1])-Math.abs(q[1]-n1[1]);})
+         .slice(0, li===2?1:2)
+         .forEach(function(n2){ edges.push([n1,n2]); });
+      });
+    }
+    for(var i=0;i<N;i++){ var t=Math.random();
+      if(t<0.30){ var nd=nodes[i%nodes.length];
+        put(a,i, nd[0]+(g()-0.5)*0.018, nd[1]+(g()-0.5)*0.028); }
+      else if(t<0.82){ var e=edges[i%edges.length], u=Math.random();
+        put(a,i, e[0][0]+(e[1][0]-e[0][0])*u+(Math.random()-0.5)*0.004,
+                 e[0][1]+(e[1][1]-e[0][1])*u+(Math.random()-0.5)*0.006); }
+      else if(t<0.92){ var an=Math.random()*6.28318, rr=0.045+Math.random()*0.022;
+        put(a,i, 0.14+Math.cos(an)*rr*0.62, 0.5+Math.sin(an)*rr); }
       else put(a,i, Math.random(), Math.random());
     } },
   colTall:function(a){ for(var i=0;i<N;i++){ var t=Math.random();

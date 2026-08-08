@@ -125,10 +125,8 @@
   #idcard .meta b{color:var(--bronze); font-weight:500; font-variant-numeric:tabular-nums}
   /* the portrait: emerges from the ink, warm-graded to bone — never a card */
   #portrait{width:min(46vw,240px); margin:0 auto 1.8em}
-  #portrait img{width:100%; display:block;
-    filter:grayscale(1) sepia(.22) saturate(.62) contrast(1.05) brightness(.94);
-    -webkit-mask-image:radial-gradient(ellipse 60% 72% at 50% 40%, #000 34%, transparent 76%);
-    mask-image:radial-gradient(ellipse 60% 72% at 50% 40%, #000 34%, transparent 76%)}
+  #portrait img{width:100%; display:block; border:1px solid var(--line); border-radius:3px;
+    filter:grayscale(1) sepia(.22) saturate(.62) contrast(1.05) brightness(.94)}
   #ch2 .reveal{opacity:0; transform:translateY(10px); transition:opacity 1.3s var(--ease), transform 1.3s var(--ease); }
   #ch2.revealed .reveal{opacity:1; transform:none}
   #ch2.revealed #holdcue{display:none}

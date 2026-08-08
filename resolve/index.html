@@ -44,7 +44,9 @@
   @media (pointer:coarse){ body{-webkit-user-select:none; user-select:none} }
 
   /* language switching */
-  body.en .L.ar{display:none} body.ar .L.en{display:none}
+  /* the language switch is absolute — nothing may override it (was leaking both
+     languages at once wherever a later display:block rule tied the score) */
+  body.en .L.ar{display:none !important} body.ar .L.en{display:none !important}
   body.en{font-family:var(--arbody)}
   .L{unicode-bidi:isolate}
 
@@ -105,13 +107,13 @@
   .no-js .rv{opacity:1; transform:none}
 
   /* chapter 2 */
-  #holdcue{display:flex; flex-direction:column; align-items:center; gap:20px;
-    font-family:var(--mono); font-size:15px; letter-spacing:.3em; text-transform:uppercase; color:var(--bone);
+  #holdcue{display:flex; flex-direction:column; align-items:center; gap:30px;
+    font-family:var(--mono); font-size:21px; letter-spacing:.3em; text-transform:uppercase; color:var(--bone);
     animation:cue 3s var(--ease) infinite}
-  #holdcue .L.ar{font-family:var(--arbody); letter-spacing:.12em; font-size:19px}
-  #holdcue::before{content:''; width:58px; height:58px; border-radius:50%; flex:none;
-    border:1px solid rgba(237,231,218,.55);
-    background:radial-gradient(circle, rgba(237,231,218,.95) 0 4.5px, transparent 5.5px);
+  #holdcue .L.ar{font-family:var(--arbody); letter-spacing:.1em; font-size:27px}
+  #holdcue::before{content:''; width:92px; height:92px; border-radius:50%; flex:none;
+    border:1px solid rgba(237,231,218,.6);
+    background:radial-gradient(circle, rgba(237,231,218,.95) 0 7px, transparent 8px);
     animation:cuering 2.6s var(--ease) infinite}
   @keyframes cue{0%,100%{opacity:.6}50%{opacity:1}}
   @keyframes cuering{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
@@ -128,18 +130,25 @@
   #portrait{width:min(46vw,240px); margin:0 auto 1.8em}
   #portrait img{width:100%; display:block; border:1px solid var(--line); border-radius:18px;
     filter:grayscale(1) sepia(.22) saturate(.62) contrast(1.05) brightness(.94)}
-  /* the brief — the professional profile, spoken at the identity moment */
-  #brief{margin:1.9em auto 0; max-width:64ch}
-  #brief p{margin:0; color:var(--bone)}
-  #brief .L.en{font-family:var(--serif); font-size:16.5px; line-height:1.8; display:block}
-  #brief .L.ar{font-family:var(--arbody); font-size:15px; line-height:2.05; display:block}
-  #bgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px 26px; margin-top:2.2em}
+  /* the brief — the professional profile, readable first: one language at a time,
+     large type, split into two columns where the screen allows */
+  #brief{margin:2em auto 0; max-width:78ch}
+  #brief p{margin:0; color:var(--bone); text-align:start}
+  #brief .L.en{font-family:var(--serif); font-size:19px; line-height:1.85; display:block}
+  #brief .L.ar{font-family:var(--arbody); font-size:18px; line-height:2.1; display:block}
+  @media (min-width:900px){ #brief p{columns:2; column-gap:46px} }
+  #bgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px 30px; margin-top:2.4em}
   @media (max-width:720px){ #bgrid{grid-template-columns:repeat(2,1fr)} }
-  #bgrid .kpi b{font-size:clamp(1.35rem,3vw,1.9rem)}
-  #bgrid .kpi span{font-size:9px; letter-spacing:.14em}
-  #bgrid .kpi span .L.ar{font-size:11.5px}
-  #ch2 .reveal{opacity:0; transform:translateY(10px); transition:opacity 1.3s var(--ease), transform 1.3s var(--ease); }
-  #ch2.revealed .reveal{opacity:1; transform:none}
+  #bgrid .kpi b{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+  #bgrid .kpi span{font-size:11px; letter-spacing:.14em}
+  #bgrid .kpi span .L.ar{font-size:14px}
+  /* pre-reveal, the hidden identity takes NO layout space — so the Hold cue sits
+     dead-centre of the opening screen */
+  #ch2{padding:0}
+  #ch2 .beat{min-height:100svh; justify-content:center}
+  #ch2.revealed .beat{align-items:flex-start; justify-content:center; padding:12vh 0 6vh; min-height:auto}
+  #ch2 .reveal{display:none; opacity:0; transform:translateY(14px); transition:opacity 2.2s var(--ease), transform 2.2s var(--ease); }
+  #ch2.revealed .reveal{display:block; opacity:1; transform:none}
   #ch2.revealed #holdcue{display:none}
 
   /* exhibits */
@@ -303,7 +312,7 @@
   <section class="ch" id="ch2" data-form="calm"
     data-rep-en="15+ years — government &amp; semi-government"
     data-rep-ar="15+ عاماً في الحكومة وشبه الحكومة">
-    <div class="wrap"><div class="beat" style="min-height:130svh; align-items:center">
+    <div class="wrap"><div class="beat">
       <div id="idcard">
         <div id="holdcue"><span class="L en">Hold.</span><span class="L ar" lang="ar">اضغط مُطوّلاً.</span></div>
         <div class="reveal">
@@ -746,29 +755,32 @@ var FORMS={
   flows:function(a){ for(var i=0;i<N;i++){ var lane=i%9, x=Math.random();
       put(a,i, x, 0.22+lane*0.062 + x*0.1 + (Math.random()-0.5)*0.012); } },
   wells:function(a){
-    /* A REAL desert well: a stone cylinder with a visible body, two upright posts,
-       a crossbeam, the pulley wheel, a rope into the dark and the hanging bucket —
-       with the distant sisters of the 110 along the horizon. */
+    /* The classic wishing well of the reference image: stone cylinder, two posts,
+       a GABLED ROOF with overhang (two layered slopes meeting at a ridge), the
+       horizontal windlass roller, rope and bucket — distant sisters on the horizon. */
     var xs=Math.max(0.4,Math.min(1,ASP*0.7));
-    var cx=0.44, rimY=0.535, rx=0.085*xs, wallB=0.665;
+    var cx=0.44, rimY=0.565, rx=0.088*xs, wallB=0.685;
+    var apexY=0.255, eaveY=0.385, eaveX=rx+0.055*xs, rollY=0.415;
     var DW=[0.05,0.13,0.21,0.63,0.72,0.81,0.90];
     for(var i=0;i<N;i++){ var t=Math.random();
-      if(t<0.10){ put(a,i, 0.03+Math.random()*0.94, 0.675+(Math.random()-0.5)*0.012); }
-      else if(t<0.17){ var d=DW[i%DW.length]; put(a,i, d+(g()-0.5)*0.016, 0.664+(g()-0.5)*0.012); }
-      else if(t<0.33){ var an=Math.random()*6.28318, rr=rx*(0.93+Math.random()*0.14);
+      if(t<0.09){ put(a,i, 0.03+Math.random()*0.94, 0.695+(Math.random()-0.5)*0.012); }
+      else if(t<0.15){ var d=DW[i%DW.length]; put(a,i, d+(g()-0.5)*0.016, 0.684+(g()-0.5)*0.012); }
+      else if(t<0.28){ var an=Math.random()*6.28318, rr=rx*(0.93+Math.random()*0.14);
         put(a,i, cx+Math.cos(an)*rr, rimY+Math.sin(an)*0.024); }
-      else if(t<0.47){ var sd=Math.random()<0.5?-1:1;
+      else if(t<0.39){ var sd=Math.random()<0.5?-1:1;
         put(a,i, cx+sd*rx*(0.96+Math.random()*0.08), rimY+Math.random()*(wallB-rimY)); }
-      else if(t<0.55){ var an2=Math.PI*Math.random();
+      else if(t<0.45){ var an2=Math.PI*Math.random();
         put(a,i, cx+Math.cos(an2)*rx, wallB+Math.sin(an2)*0.022); }
-      else if(t<0.60){ put(a,i, cx+(Math.random()-0.5)*2*rx*0.9, rimY+0.02+Math.random()*(wallB-rimY-0.03)); }
-      else if(t<0.74){ var sp=Math.random()<0.5?-1:1, s=Math.random();
-        put(a,i, cx+sp*(rx+0.030*xs)+(Math.random()-0.5)*0.006, 0.30+s*0.38); }
-      else if(t<0.81){ put(a,i, cx+(Math.random()-0.5)*2*(rx+0.034*xs), 0.30+(Math.random()-0.5)*0.010); }
-      else if(t<0.85){ var an3=Math.random()*6.28318;
-        put(a,i, cx+Math.cos(an3)*0.016*xs, 0.317+Math.sin(an3)*0.016); }
-      else if(t<0.91){ put(a,i, cx+(Math.random()-0.5)*0.004, 0.335+Math.random()*0.14); }
-      else if(t<0.97){ put(a,i, cx+(g()-0.5)*0.034, 0.487+(g()-0.5)*0.026); }
+      else if(t<0.50){ put(a,i, cx+(Math.random()-0.5)*2*rx*0.9, rimY+0.02+Math.random()*(wallB-rimY-0.03)); }
+      else if(t<0.60){ var sp=Math.random()<0.5?-1:1, s=Math.random();
+        put(a,i, cx+sp*rx*0.78+(Math.random()-0.5)*0.006, eaveY-0.01+s*(rimY-eaveY+0.01)); }
+      else if(t<0.80){ var ss=Math.random()<0.5?-1:1, u=Math.random(), layer=Math.random()<0.5?0:0.016;
+        put(a,i, cx+ss*eaveX*u+(Math.random()-0.5)*0.004,
+                 apexY+(eaveY-apexY)*u+layer+(Math.random()-0.5)*0.004); }
+      else if(t<0.83){ put(a,i, cx+(g()-0.5)*0.030, apexY+(g()-0.5)*0.014); }
+      else if(t<0.90){ put(a,i, cx+(Math.random()-0.5)*2*rx*0.78, rollY+(Math.random()-0.5)*0.014); }
+      else if(t<0.94){ put(a,i, cx+(Math.random()-0.5)*0.004, rollY+0.01+Math.random()*0.10); }
+      else if(t<0.98){ put(a,i, cx+(g()-0.5)*0.034, 0.535+(g()-0.5)*0.024); }
       else put(a,i, Math.random(), Math.random());
     } },
   flatline:function(a){
@@ -1051,7 +1063,14 @@ function endHold(x,y){
 }
 function ch2Active(){ return activeEl && !!activeEl.closest('#ch2'); }
 function ch5Active(){ return activeEl && !!activeEl.closest('#ch5'); }
-function revealCh2(){ ch2.classList.add('revealed'); }
+function revealCh2(){
+  if(ch2.classList.contains('revealed')) return;
+  /* two-step: give the hidden block layout first, then fade — display:none cannot animate */
+  var rv=ch2.querySelector('.reveal');
+  rv.style.display='block';
+  void rv.offsetHeight;
+  ch2.classList.add('revealed');
+}
 function signSeal(){
   if(ch5.classList.contains('signed')) return;
   ch5.classList.add('signed');
@@ -1119,7 +1138,7 @@ var ch2Seen=null;
 var io3=new IntersectionObserver(function(es){
   es.forEach(function(e){
     if(e.isIntersecting && !ch2.classList.contains('revealed')){
-      ch2Seen=setTimeout(revealCh2, reduced?400:8000);
+      ch2Seen=setTimeout(revealCh2, reduced?400:20000);
     } else { clearTimeout(ch2Seen); }
   });
 },{threshold:0.5});

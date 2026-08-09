@@ -32,6 +32,29 @@
     --ease:cubic-bezier(0.16,1,0.3,1);
     --d-reveal:900ms; --d-mat:1200ms; --d-order:1400ms; --d-exhale:1200ms;
   }
+  /* WHITE MODE — a full re-grade, not an inversion: warm paper, ink text, deeper
+     bronze for contrast, and every overlay re-tuned. Particles flip physics too
+     (additive light → normal-blended ink dots) in the WebGL layer. */
+  body.light{
+    --ink:#F2EFE7; --ink2:#E9E4D8; --ink3:#DFD9CA; --line:#D3CCBC;
+    --bone:#181D24; --dim:#6F6A5D;
+    --bronze:#8A6844; --bronze2:#A8906C;
+    --maroon:#7A2C39; --maroon2:#964552;
+  }
+  body.light #sky{background:
+      radial-gradient(ellipse 62% 46% at 72% 18%, rgba(46,78,128,.07), transparent 70%),
+      radial-gradient(ellipse 74% 58% at 22% 78%, rgba(32,56,96,.05), transparent 72%)}
+  body.light #dawn{background:linear-gradient(180deg, transparent 40%, rgba(118,128,150,.16) 100%)}
+  body.light #fest{background:radial-gradient(ellipse 72% 58% at 50% 56%, rgba(138,53,66,.09), transparent 70%)}
+  body.light #vig{background:radial-gradient(ellipse at 50% 42%, transparent 55%, rgba(96,84,60,.16) 100%)}
+  body.light #rep{background:radial-gradient(closest-side, rgba(242,239,231,.97), rgba(242,239,231,.86) 62%, rgba(242,239,231,0))}
+  body.light .tr{background:radial-gradient(circle, rgba(24,29,36,.65), rgba(24,29,36,0) 70%)}
+  body.light #holdcue::before{border-color:rgba(24,29,36,.5);
+    background:radial-gradient(circle, rgba(24,29,36,.9) 0 7px, transparent 8px)}
+  body.light .cor{background:rgba(233,228,216,.72)}
+  body.light #sealbox circle:not(#ring2){stroke:#181D24}
+  body.light #sealbox text{fill:#181D24}
+  body.light #top:before{background:linear-gradient(180deg, rgba(242,239,231,.94) 45%, rgba(242,239,231,0))}
   *{box-sizing:border-box}
   html{background:var(--ink); scroll-behavior:auto}
   body{
@@ -244,6 +267,7 @@
     .corridor{grid-template-columns:1fr}
     /* on a small screen the field must recede — the text always wins */
     #vig{background:radial-gradient(ellipse at 50% 42%, transparent 38%, rgba(5,7,10,.6) 100%), rgba(12,16,20,.44)}
+    body.light #vig{background:radial-gradient(ellipse at 50% 42%, transparent 38%, rgba(96,84,60,.2) 100%), rgba(242,239,231,.5)}
     #top{padding-top:calc(14px + env(safe-area-inset-top))}
     #top:before{content:''; position:absolute; inset:0 0 -20px 0; z-index:-1;
       background:linear-gradient(180deg, rgba(12,16,20,.94) 45%, rgba(12,16,20,0))}
@@ -298,6 +322,7 @@
   <nav id="langs" aria-label="Language">
     <button id="bAr" aria-pressed="true" lang="ar">عربي</button>
     <button id="bEn" aria-pressed="false">EN</button>
+    <button id="bTheme" aria-pressed="false" title="White mode · الوضع الأبيض">◐</button>
   </nav>
 </header>
 
@@ -632,6 +657,18 @@ try{ lang = localStorage.getItem('rv_lang') || ((navigator.language||'').toLower
 setLang(lang,false);
 bAr.addEventListener('click',function(){setLang('ar',true)});
 bEn.addEventListener('click',function(){setLang('en',true)});
+
+/* ---------- white mode ---------- */
+var THEME_LIGHT=false;
+var bTheme=document.getElementById('bTheme');
+function setTheme(light,save){
+  THEME_LIGHT=!!light;
+  document.body.classList.toggle('light',THEME_LIGHT);
+  bTheme.setAttribute('aria-pressed',THEME_LIGHT);
+  if(save){ try{ localStorage.setItem('rv_theme',THEME_LIGHT?'light':'dark'); }catch(e){} }
+}
+try{ if(localStorage.getItem('rv_theme')==='light') setTheme(true,false); }catch(e){}
+bTheme.addEventListener('click',function(){ setTheme(!THEME_LIGHT,true); });
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 /* ---------- prologue ---------- */
@@ -677,17 +714,19 @@ function initGL(){
   "p+=vec2(uTilt.y,uTilt.z)*(0.35+1.3*aMeta.z)*(1.0-h);"+
   "p=mix(p,ring,h);vA=aMeta.w*(0.55+0.45*h);"+
   "gl_Position=vec4(p,0.0,1.0);gl_PointSize=aMeta.y*(1.0+h*0.4)*uPx;}";
-  var fs="precision mediump float;varying float vA;"+
-  "void main(){vec2 c=gl_PointCoord-0.5;float d=dot(c,c);float a=smoothstep(0.25,0.04,d)*vA;"+
-  /* aerial perspective: faint far particles lean cool blue, bright near ones stay warm bone */
-  "vec3 col=mix(vec3(0.60,0.68,0.84),vec3(0.895,0.869,0.808),clamp(vA*1.7,0.0,1.0));"+
-  "gl_FragColor=vec4(col,a);}";
+  var fs="precision mediump float;varying float vA;uniform float uLight;"+
+  "void main(){vec2 c=gl_PointCoord-0.5;float d=dot(c,c);float a=smoothstep(0.25,0.04,d)*vA*(1.0+0.4*uLight);"+
+  /* dark room: aerial perspective in added light. white room: ink dots, faint ones
+     paling toward the paper — the same depth cue, opposite physics. */
+  "vec3 dark=mix(vec3(0.60,0.68,0.84),vec3(0.895,0.869,0.808),clamp(vA*1.7,0.0,1.0));"+
+  "vec3 lite=mix(vec3(0.55,0.51,0.44),vec3(0.11,0.10,0.08),clamp(vA*1.7,0.0,1.0));"+
+  "gl_FragColor=vec4(mix(dark,lite,uLight),a);}";
   prog=gl.createProgram();
   gl.attachShader(prog,compile(vs,gl.VERTEX_SHADER));
   gl.attachShader(prog,compile(fs,gl.FRAGMENT_SHADER));
   gl.linkProgram(prog); gl.useProgram(prog);
   aFromB=gl.createBuffer(); aToB=gl.createBuffer(); aMetaB=gl.createBuffer();
-  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt','uTilt'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
+  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt','uTilt','uLight'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
   gl.clearColor(0.047,0.063,0.078,1);
   for(var i=0;i<N;i++){ meta[i*4]=Math.random(); meta[i*4+1]=1.2+Math.random()*1.5; meta[i*4+2]=Math.random(); meta[i*4+3]=0.35+Math.random()*0.5; }
@@ -990,6 +1029,15 @@ function frame(ts){
   tiltX+=(tiltGoalX-tiltX)*Math.min(1,dt*2.6);
   paraGoal*=Math.exp(-dt*5); paraY+=(paraGoal-paraY)*Math.min(1,dt*6);
   gl.uniform3f(U.uTilt,tiltA,tiltX,paraY);
+  if(THEME_LIGHT){
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0.949,0.937,0.906,1);
+    gl.uniform1f(U.uLight,1);
+  } else {
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.clearColor(0.047,0.063,0.078,1);
+    gl.uniform1f(U.uLight,0);
+  }
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.POINTS,0,N);
   rafId=requestAnimationFrame(frame);

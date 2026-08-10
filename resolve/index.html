@@ -117,11 +117,11 @@
   .beat.short{min-height:60svh}
 
   .eyebrow{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim)}
-  .stmt{margin:0; max-width:20ch}
+  .stmt{margin:0; max-width:34ch}
   #ch1 .beat, #ch4 .beat{justify-content:center}
   #ch1 .stmt, #ch4 .beat .stmt{text-align:center; max-width:24ch}
-  .stmt .en{font-family:var(--serif); font-size:clamp(2.2rem,6.4vw,4.4rem); line-height:1.08; display:block; text-wrap:balance}
-  .stmt .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.9rem,5.6vw,3.8rem); line-height:1.55; display:block; text-wrap:balance}
+  .stmt .en{font-family:var(--serif); font-size:clamp(1.5rem,3.6vw,2.5rem); line-height:1.3; display:block; text-wrap:balance}
+  .stmt .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.35rem,3.2vw,2.2rem); line-height:1.8; display:block; text-wrap:balance}
   .sub{color:var(--dim); font-size:14px; max-width:58ch}
 
   /* reveals */
@@ -156,7 +156,10 @@
   /* the brief — the professional profile, readable first: one language at a time,
      large type, split into two columns where the screen allows */
   #brief{margin:2em auto 0; max-width:78ch}
-  #brief p{margin:0; color:var(--bone); text-align:start}
+  #brief p{margin:0; color:var(--bone); text-align:start; padding:20px 24px;
+    background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
+  body.light #brief p{background:rgba(242,239,231,.62)}
   #brief .L.en{font-family:var(--serif); font-size:19px; line-height:1.85; display:block}
   #brief .L.ar{font-family:var(--arbody); font-size:18px; line-height:2.1; display:block}
   @media (min-width:900px){ #brief p{columns:2; column-gap:46px} }
@@ -183,15 +186,33 @@
     border-top:1px solid var(--line); padding-top:12px; margin-top:10px; line-height:2}
   .exhibit .stmt{margin-top:.9em}
   .kpirow{display:flex; align-items:flex-end; gap:clamp(16px,4vw,34px); flex-wrap:wrap; margin-top:1.3em}
-  .kpi b{display:block; direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums; color:var(--bronze);
-    font-size:clamp(2.6rem,8vw,4.6rem); line-height:1;
-    filter:blur(9px); opacity:0; transition:filter var(--d-mat) var(--ease), opacity var(--d-mat) var(--ease)}
+  /* the numbers: living pearl — an ivory-blue metallic sweep in constant slow
+     motion, counted up on arrival, breathing on hover. (bronze retired per client) */
+  body{--numA:#93AACB; --numB:#F2ECDD; --numC:#C9DAF2}
+  body.light{--numA:#33517E; --numB:#10151C; --numC:#3F6293}
+  .kpi b{display:block; direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums;
+    font-size:clamp(2.6rem,8vw,4.6rem); line-height:1.05;
+    color:var(--numC);
+    background:linear-gradient(100deg, var(--numA) 0%, var(--numB) 32%, var(--numC) 50%, var(--numB) 68%, var(--numA) 100%);
+    background-size:230% 100%;
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:numsweep 5.5s linear infinite;
+    transition:transform .6s var(--ease), filter var(--d-mat) var(--ease), opacity var(--d-mat) var(--ease);
+    filter:blur(9px); opacity:0}
   .kpi.in b{filter:blur(0); opacity:1}
+  .kpi:hover b, .kpi:active b{transform:scale(1.045)}
+  @keyframes numsweep{0%{background-position:230% 0}100%{background-position:0% 0}}
+  @media (prefers-reduced-motion: reduce){ .kpi b{animation:none} }
   .kpi span{display:block; font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin-top:8px}
   .kpi span .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:12px}
-  .deepwrap{margin-top:1.4em; border-top:1px solid var(--line); max-width:64ch}
-  /* details are always on display — client direction 2026-08-08 */
-  .deep{color:var(--dim); font-size:14px; margin:0; padding-top:14px}
+  .deepwrap{margin-top:1.4em; max-width:64ch}
+  /* details are always on display, each in a frosted glass panel that isolates
+     the small text from the particle field (client direction 2026-08-09) */
+  .deep{color:var(--bone); font-size:14px; margin:0; padding:16px 20px;
+    background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
+  body.light .deep{background:rgba(242,239,231,.62)}
   .more{display:none}
 
   /* corridor */
@@ -204,7 +225,11 @@
 
   /* ch4 */
   .kpis3{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:18px; margin-top:1.3em; max-width:640px}
-  .teach{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); line-height:2.2}
+  .teach{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--bone); line-height:2.2;
+    display:inline-block; padding:12px 18px;
+    background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
+  body.light .teach{background:rgba(242,239,231,.62)}
   .teach .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:13px}
 
   /* ch5 */
@@ -261,8 +286,8 @@
     .exhibit .stmt{order:4; margin-top:.75em}
     .exhibit .deepwrap{order:5}
     .exhibit .teach{order:6}
-    .exhibit .stmt .en{font-size:clamp(1.9rem,7.2vw,2.6rem)}
-    .exhibit .stmt .ar{font-size:clamp(1.6rem,6.2vw,2.2rem)}
+    .exhibit .stmt .en{font-size:clamp(1.35rem,5vw,1.8rem)}
+    .exhibit .stmt .ar{font-size:clamp(1.25rem,4.6vw,1.7rem)}
     .kpis3{grid-template-columns:1fr; gap:20px}
     .corridor{grid-template-columns:1fr}
     /* on a small screen the field must recede — the text always wins */
@@ -291,15 +316,15 @@
     .exhibit{display:grid; grid-template-columns:1.1fr .9fr; column-gap:clamp(48px,7vw,110px); align-items:start; padding:18vh 0}
     .ex-eyebrow{grid-column:1/-1}
     .exhibit .plate{grid-column:1/-1}
-    .exhibit .stmt{grid-column:1; grid-row:3; margin-top:1.1em; max-width:16ch}
+    .exhibit .stmt{grid-column:1; grid-row:3; margin-top:1.1em; max-width:34ch}
     .exhibit .kpirow,.exhibit .kpis3{grid-column:2; grid-row:3; align-self:center; margin-top:1.1em}
     .exhibit .deepwrap{grid-column:2; grid-row:4}
     .exhibit .teach{grid-column:1/-1; grid-row:5}
     .exhibit.alt .stmt{grid-column:2}
     .exhibit.alt .kpirow,.exhibit.alt .kpis3{grid-column:1}
     .exhibit.alt .deepwrap{grid-column:1}
-    .stmt .en{font-size:clamp(2.2rem,5vw,5rem)}
-    .stmt .ar{font-size:clamp(1.9rem,4.4vw,4.2rem)}
+    .stmt .en{font-size:clamp(1.7rem,2.2vw,2.7rem)}
+    .stmt .ar{font-size:clamp(1.5rem,2vw,2.4rem)}
     .kpi b{font-size:clamp(3rem,6.5vw,5.4rem)}
     .kpis3{grid-template-columns:repeat(3,auto); column-gap:34px; max-width:none}
   }
@@ -374,8 +399,8 @@
       data-rep-ar="من محاسب إلى قائد عمليات — منذ 2011">
       <div style="width:100%">
         <p class="stmt rv" style="text-align:center">
-          <span class="L en">Trained in accounting. Promoted through the field.</span>
-          <span class="L ar" lang="ar">تَعَلَّمَ المُحاسَبَة، وتَرَقّى في المَيدان.</span>
+          <span class="L en">Foundation: federal financial governance — B.Acc, Al Ain University; MBA, Canadian University Dubai.</span>
+          <span class="L ar" lang="ar">الأساس: حوكمة مالية اتحادية — بكالوريوس محاسبة من جامعة العين، وماجستير إدارة أعمال من الجامعة الكندية بدبي.</span>
         </p>
         <p class="plate rv" style="text-align:center; border-top:0; margin-top:1.6em">2011 · Accountant, Critical Infrastructure and Coastal Protection Authority — B.Acc, Al Ain University · MBA, Canadian University Dubai</p>
       </div>
@@ -388,8 +413,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit I — The Network</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الأول — الشبكة</span></div>
       <div class="plate rv">Abu Dhabi Farmers' Service Centre · Finance &amp; Administration Officer — Acting Unit Manager · 2011–2018</div>
       <p class="stmt rv">
-        <span class="L en">Fourteen workshops. Three regions. Twenty thousand farms in his ledger.</span>
-        <span class="L ar" lang="ar">أربَعَ عَشْرَةَ وَرشَة. ثَلاثُ مَناطِق. وَعِشرونَ ألفَ مَزرَعَةٍ في عُهدَتِه.</span>
+        <span class="L en">Owned budgets, procurement and audit for 14 technical workshops serving 20,000+ farms across three regions.</span>
+        <span class="L ar" lang="ar">إدارة الميزانيات والمشتريات والتدقيق لأربع عشرة ورشة فنية تخدم أكثر من 20,000 مزرعة في ثلاث مناطق.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>20,000+</b><span><span class="L en">farms supported</span><span class="L ar" lang="ar">مزرعة مدعومة</span></span></div></div>
       <div class="deepwrap">
@@ -408,8 +433,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit II — The Turnaround</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الثاني — التحوّل</span></div>
       <div class="plate rv">Abu Dhabi Farmers' Service Centre · Promoted to Acting Unit Manager, 2017</div>
       <p class="stmt rv">
-        <span class="L en">Same people. Same machines. Double the output.</span>
-        <span class="L ar" lang="ar">نَفسُ الرِّجال، نَفسُ الآلات — ضِعفُ الإنتاج.</span>
+        <span class="L en">Raised workforce output from 60% to 120% of target through restructuring and workflow redesign — with no added headcount.</span>
+        <span class="L ar" lang="ar">رفع إنتاجية القوى العاملة من 60% إلى 120% من المستهدف بإعادة الهيكلة وتصميم مسارات العمل — دون زيادة في الكوادر.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>60→120%</b><span><span class="L en">workforce output vs target</span><span class="L ar" lang="ar">إنتاجية القوى العاملة من المستهدف</span></span></div></div>
       <div class="deepwrap">
@@ -436,8 +461,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit III — The Wells</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الثالث — الآبار</span></div>
       <div class="plate rv">Abu Dhabi Farmers' Service Centre · with the Ruler's Representative Court, Al Ain · 2011–2018</div>
       <p class="stmt rv">
-        <span class="L en">One hundred and ten wells, kept alive in the open desert.</span>
-        <span class="L ar" lang="ar">مِئَةٌ وَعَشرُ آبارٍ أُبقِيَت حَيَّةً في الصَّحراءِ المَفتوحَة.</span>
+        <span class="L en">Co-managed 110 Al-Ahali desert wells with the Ruler's Representative Court — water secured for residents and livestock.</span>
+        <span class="L ar" lang="ar">إدارة مشتركة لـ110 آبار من آبار الأهالي مع ديوان ممثل الحاكم — تأمين المياه للأهالي والماشية.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>110</b><span><span class="L en">Al-Ahali desert wells, co-managed</span><span class="L ar" lang="ar">بئراً من آبار الأهالي بإدارة مشتركة</span></span></div></div>
       <div class="deepwrap">
@@ -462,8 +487,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit IV — The Festival</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الرابع — المهرجان</span></div>
       <div class="plate rv">Abu Dhabi Agriculture and Food Safety Authority (ADAFSA) · Senior Officer, Operations &amp; Trade Division · 2018–2021</div>
       <p class="stmt rv">
-        <span class="L en">He didn't run the first Al Ain Agricultural Festival. He conceived it.</span>
-        <span class="L ar" lang="ar">لَم يُدِر مِهرَجانَ العَينِ الزِّراعيَّ الأوَّل — بَل ابتَكَرَهُ.</span>
+        <span class="L en">Conceived and delivered the first Al Ain Agricultural Festival: AED 1.5M+ in one week, under royal patronage, covered by WAM.</span>
+        <span class="L ar" lang="ar">ابتكر وأنجز مهرجان العين الزراعي الأول: أكثر من 1.5 مليون درهم في أسبوع واحد، برعاية ملكية وتغطية وكالة أنباء الإمارات.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>AED 1.5M+</b><span><span class="L en">sales · one week</span><span class="L ar" lang="ar">مبيعات · في أسبوع واحد</span></span></div></div>
       <div class="deepwrap">
@@ -482,8 +507,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit V — The Frontline</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الخامس — خط الإمداد</span></div>
       <div class="plate rv">Silal Food Technology Store, Al Ain · Senior Officer, Operations &amp; Center Management · 2021–Present</div>
       <p class="stmt rv">
-        <span class="L en">Thirty tons of the nation's food, through his hands. Daily.</span>
-        <span class="L ar" lang="ar">ثَلاثونَ طُنّاً مِن غِذاءِ الوَطَنِ تَمُرُّ مِن بَينِ يَدَيه — يَومِيّاً.</span>
+        <span class="L en">Directs daily food-security operations at Silal's collection center — up to 30 tons of throughput under full KPI and FIFO governance.</span>
+        <span class="L ar" lang="ar">يدير عمليات الأمن الغذائي اليومية في مركز تجميع سلال — حتى 30 طناً من التداول بحوكمة كاملة للمؤشرات والوارد أولاً.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>30</b><span><span class="L en">tons · daily throughput</span><span class="L ar" lang="ar">طناً · معدل التداول اليومي</span></span></div></div>
       <div class="deepwrap">
@@ -502,8 +527,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit VI — The Quiet Line</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض السادس — الخط الهادئ</span></div>
       <div class="plate rv">Silal · Al-Salamat Collection Center · Operational Portfolio 2025</div>
       <p class="stmt rv">
-        <span class="L en">From twenty complaints a week to none. Six straight weeks of silence.</span>
-        <span class="L ar" lang="ar">مِن عِشرينَ شَكوى في الأُسبوعِ إلى لا شَيء — سِتَّةُ أسابيعَ مِنَ الهُدوء.</span>
+        <span class="L en">Cut weekly farmer complaints from 20+ to zero — held six consecutive weeks; truck waiting time reduced 64%.</span>
+        <span class="L ar" lang="ar">خفض شكاوى المزارعين الأسبوعية من أكثر من 20 إلى صفر — طوال ستة أسابيع متتالية، مع خفض انتظار الشاحنات 64%.</span>
       </p>
       <div class="kpirow">
         <div class="kpi rv"><b>0</b><span><span class="L en">farmer complaints · held six weeks</span><span class="L ar" lang="ar">شكوى من المزارعين · طوال ستة أسابيع</span></span></div>
@@ -525,8 +550,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit VII — The Crates</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض السابع — الصناديق</span></div>
       <div class="plate rv">Silal · Al-Salamat Collection Center · Operational Portfolio 2025</div>
       <p class="stmt rv">
-        <span class="L en">Twelve thousand crates in his keeping — and the lost ones come back.</span>
-        <span class="L ar" lang="ar">اثنا عَشَرَ ألفَ صُندوقٍ في عُهدَتِه — والمَفقودُ يَعود.</span>
+        <span class="L en">Manages 12,000 crates: traced 579 missing and built an in-house repair program returning 3,592% net ROI.</span>
+        <span class="L ar" lang="ar">يدير 12,000 صندوق: حصر 579 مفقوداً وأنشأ برنامج إصلاح داخلياً بعائد صافٍ 3,592%.</span>
       </p>
       <div class="kpirow">
         <div class="kpi rv"><b>12,000</b><span><span class="L en">crates under management</span><span class="L ar" lang="ar">صندوق تحت الإدارة</span></span></div>
@@ -549,8 +574,8 @@
       data-rep-en="From field innovation to AI"
       data-rep-ar="من الابتكار الميداني إلى الذكاء الاصطناعي">
       <p class="stmt rv">
-        <span class="L en">The man who cleaned wells with compressed air now builds AI.</span>
-        <span class="L ar" lang="ar">الرَّجُلُ الّذي نَظَّفَ الآبارَ بالهَواءِ المَضغوط، يَبني الذَّكاءَ الاصطِناعِيَّ اليَوم.</span>
+        <span class="L en">From field engineering to applied AI — the same discipline at a new scale.</span>
+        <span class="L ar" lang="ar">من الهندسة الميدانية إلى الذكاء الاصطناعي التطبيقي — الانضباط نفسه على نطاق جديد.</span>
       </p>
     </div></div>
 
@@ -560,8 +585,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">Exhibit VIII — The Second Curve</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المعرض الثامن — المنحنى الثاني</span></div>
       <div class="plate rv">Tabashir AI · Founder &amp; Managing Director · Self-funded, UAE-licensed · 2023–Present</div>
       <p class="stmt rv">
-        <span class="L en">An AI engine finding work for a generation of Emiratis.</span>
-        <span class="L ar" lang="ar">مُحَرِّكُ ذَكاءٍ اصطِناعِيٍّ يَجِدُ العَمَلَ لِجيلٍ مِنَ الإماراتِيّين.</span>
+        <span class="L en">Founded and self-funded Tabashir AI: 2,000+ UAE job seekers served, 30% placement success, 25% faster hiring.</span>
+        <span class="L ar" lang="ar">أسّس تباشير للذكاء الاصطناعي بتمويل ذاتي: أكثر من 2,000 باحث عمل إماراتي، بنسبة توظيف 30% وزمن توظيف أسرع 25%.</span>
       </p>
       <div class="kpis3">
         <div class="kpi rv"><b>2,000+</b><span><span class="L en">UAE job seekers served</span><span class="L ar" lang="ar">باحث عمل إماراتي خُدموا</span></span></div>
@@ -583,8 +608,8 @@
       <div class="ex-eyebrow rv"><span class="eyebrow">The 98.7% Moment</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">لحظة الـ 98.7%</span></div>
       <div class="plate rv">HBJ Construction and Well Maintenance · Founder &amp; Owner · 2017–Present</div>
       <p class="stmt rv">
-        <span class="L en">A deep-well casing protection system. AED 45,000 became AED 600.</span>
-        <span class="L ar" lang="ar">مَنظومَةُ حِمايَةٍ لأغلِفَةِ الآبارِ العَميقَة: 45,000 دِرهَمٍ صارَت 600.</span>
+        <span class="L en">Engineered a deep-well casing protection system — unit cost cut from AED 45,000 to AED 600, a 98.7% reduction.</span>
+        <span class="L ar" lang="ar">صمّم منظومة حماية لأغلفة الآبار العميقة — خفض كلفة الوحدة من 45,000 إلى 600 درهم، بنسبة 98.7%.</span>
       </p>
       <div class="kpirow"><div class="kpi rv"><b>98.7%</b><span><span class="L en">unit-cost reduction · his own design</span><span class="L ar" lang="ar">خفضاً في كلفة الوحدة · بتصميمه الخاص</span></span></div></div>
       <p class="teach rv" style="margin-top:3em"><span class="L en">Guest lecturer on AI and the future of work — Higher Colleges of Technology.</span><span class="L ar" lang="ar">محاضرٌ ضيفٌ حول الذكاء الاصطناعي ومستقبل العمل — كليات التقنية العليا.</span></p>
@@ -1027,9 +1052,36 @@ window.addEventListener('scroll',function(){
 /* ---------- reveals ---------- */
 var rvs=[].slice.call(document.querySelectorAll('.rv,.kpi'));
 var io2=new IntersectionObserver(function(es){
-  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io2.unobserve(e.target); } });
+  es.forEach(function(e){ if(e.isIntersecting){
+    e.target.classList.add('in');
+    if(e.target.classList.contains('kpi')){ var b=e.target.querySelector('b'); if(b) countUp(b); }
+    io2.unobserve(e.target);
+  } });
 },{threshold:0.35});
 rvs.forEach(function(el){ io2.observe(el); });
+
+/* count-up: every numeric token in the figure sweeps from zero to its value,
+   decimals, commas, arrows and prefixes preserved. */
+function countUp(el){
+  if(reduced || el.dataset.cu) return; el.dataset.cu='1';
+  var parts=el.textContent.split(/([\d,\.]+)/), any=false;
+  var targets=[], dec=[], com=[];
+  for(var i=0;i<parts.length;i++){
+    if(/^[\d,\.]+$/.test(parts[i])){
+      targets[i]=parseFloat(parts[i].replace(/,/g,'')); any=true;
+      var dm=/\.(\d+)/.exec(parts[i]); dec[i]=dm?dm[1].length:0; com[i]=parts[i].indexOf(',')>=0;
+    } else targets[i]=null;
+  }
+  if(!any) return;
+  var t0=performance.now(), D=1150;
+  function fmt(v,dc,cm){ var s=v.toFixed(dc); if(cm) s=s.replace(/\B(?=(\d{3})+(?!\d))/g,','); return s; }
+  (function tick(ts){
+    var p=Math.min(1,(ts-t0)/D), e2=1-Math.pow(1-p,3), out='';
+    for(var i=0;i<parts.length;i++){ out += targets[i]==null ? parts[i] : fmt(targets[i]*e2, dec[i], com[i]); }
+    el.textContent=out;
+    if(p<1) requestAnimationFrame(tick);
+  })(t0);
+}
 
 /* ---------- deep layers ---------- */
 [].slice.call(document.querySelectorAll('.more')).forEach(function(btn){

@@ -93,12 +93,12 @@
   /* topbar */
   #top{position:fixed; z-index:6; top:0; inset-inline:0; display:flex; justify-content:space-between; align-items:center;
     padding:16px clamp(16px,4vw,40px); mix-blend-mode:normal}
-  #top .who{font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--dim); text-transform:uppercase}
-  #top .who .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:12px}
+  #top .who{font-family:var(--mono); font-size:12px; letter-spacing:.18em; color:var(--dim); text-transform:uppercase}
+  #top .who .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:14.5px}
   #langs{display:flex; gap:4px}
   #langs button{
-    font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
-    background:none; border:1px solid transparent; color:var(--dim); padding:6px 10px; cursor:pointer; border-radius:2px}
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; text-transform:uppercase;
+    background:none; border:1px solid transparent; color:var(--dim); padding:6px 12px; cursor:pointer; border-radius:2px}
   #langs button[aria-pressed="true"]{color:var(--bone); border-color:var(--line)}
   #langs button:hover{color:var(--bone)}
 
@@ -116,7 +116,7 @@
   .beat{min-height:92svh; display:flex; align-items:center}
   .beat.short{min-height:60svh}
 
-  .eyebrow{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim)}
+  .eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
   .stmt{margin:0; max-width:min(100%,760px)}
   #ch1 .beat, #ch4 .beat{justify-content:center}
   #ch1 .stmt, #ch4 .beat .stmt{text-align:center; max-width:24ch}
@@ -147,7 +147,7 @@
   #idcard .one{margin:1.8em auto 0; max-width:34ch}
   #idcard .one .en{font-family:var(--serif); font-size:clamp(1.25rem,3vw,1.8rem); line-height:1.35}
   #idcard .one .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.15rem,2.7vw,1.6rem); line-height:1.8}
-  #idcard .meta{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-top:2.2em}
+  #idcard .meta{font-family:var(--mono); font-size:13.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-top:2.2em}
   #idcard .meta b{color:var(--bronze); font-weight:500; font-variant-numeric:tabular-nums}
   /* the portrait: emerges from the ink, warm-graded to bone — never a card */
   #portrait{width:min(46vw,240px); margin:0 auto 1.8em}
@@ -182,7 +182,7 @@
   .inscription .stmt{margin:0 auto; max-width:26ch}
   .exhibit{padding:14vh 0}
   .ex-eyebrow{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
-  .plate{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+  .plate{font-family:var(--mono); font-size:13.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
     border-top:1px solid var(--line); padding-top:12px; margin-top:10px; line-height:2}
   .exhibit .stmt{margin-top:.9em}
   .kpirow{display:flex; align-items:flex-end; gap:clamp(16px,4vw,34px); flex-wrap:wrap; margin-top:1.3em}
@@ -204,35 +204,35 @@
   .kpi:hover b, .kpi:active b{transform:scale(1.045)}
   @keyframes numsweep{0%{background-position:230% 0}100%{background-position:0% 0}}
   @media (prefers-reduced-motion: reduce){ .kpi b{animation:none} }
-  .kpi span{display:block; font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin-top:8px}
-  .kpi span .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:12px}
+  .kpi span{display:block; font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-top:8px}
+  .kpi span .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:15.5px}
   .deepwrap{margin-top:1.4em; max-width:min(100%,740px)}
   /* details are always on display, each in a frosted glass panel that isolates
      the small text from the particle field (client direction 2026-08-09) */
-  .deep{color:var(--bone); font-size:14px; margin:0; padding:16px 20px;
+  .deep{color:var(--bone); font-size:16.5px; margin:0; padding:16px 20px;
     background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light .deep{background:rgba(242,239,231,.62)}
   /* the dossier — evidence, operations and documentation on demand, in the
      Al-Salamat audit method: every claim traceable to a named file and page */
-  .dsr-btn{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--bone);
-    background:none; border:1px solid var(--line); border-radius:8px; padding:10px 18px; margin-top:12px; cursor:pointer; min-height:44px}
+  .dsr-btn{font-family:var(--mono); font-size:13.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone);
+    background:none; border:1px solid var(--line); border-radius:8px; padding:11px 20px; margin-top:12px; cursor:pointer; min-height:46px}
   .dsr-btn:hover{border-color:var(--bronze2)}
-  .dsr-btn .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:13.5px}
+  .dsr-btn .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:16px}
   .dossier{margin-top:12px; padding:18px 22px; border:1px solid var(--line); border-radius:10px;
     background:rgba(16,21,27,.58); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light .dossier{background:rgba(242,239,231,.62)}
-  .ds-h{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); margin:16px 0 8px}
+  .ds-h{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin:16px 0 8px}
   .ds-sec:first-child .ds-h{margin-top:0}
-  .ds-steps{margin:0; padding-inline-start:1.3em; font-size:13.5px; color:var(--bone); line-height:1.95}
+  .ds-steps{margin:0; padding-inline-start:1.3em; font-size:16px; color:var(--bone); line-height:2}
   .ds-steps li{margin-bottom:4px}
   .ds-ev{display:flex; gap:10px; flex-wrap:wrap}
   .ds-ev figure{margin:0; flex:1 1 150px; max-width:235px}
   .ds-ev img{width:100%; display:block; border-radius:8px; border:1px solid var(--line)}
-  .ds-ev figcaption{font-size:11px; color:var(--dim); margin-top:5px; line-height:1.6}
-  .ds-src{font-size:12.5px; color:var(--dim); line-height:2.1}
-  .ds-src b{font-family:var(--mono); font-size:11px; color:var(--bone); font-weight:500; direction:ltr; unicode-bidi:isolate}
-  .chip{display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; border:1px solid var(--line); border-radius:99px; padding:2px 10px; margin-inline-start:8px; color:var(--dim); vertical-align:middle}
+  .ds-ev figcaption{font-size:13.5px; color:var(--dim); margin-top:6px; line-height:1.7}
+  .ds-src{font-size:15px; color:var(--dim); line-height:2.1}
+  .ds-src b{font-family:var(--mono); font-size:13px; color:var(--bone); font-weight:500; direction:ltr; unicode-bidi:isolate}
+  .chip{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.12em; border:1px solid var(--line); border-radius:99px; padding:3px 12px; margin-inline-start:8px; color:var(--dim); vertical-align:middle}
   .chip.ok{color:var(--numC); border-color:var(--numA)}
   .chip.prop{color:var(--maroon); border-color:var(--maroon)}
   body.light .chip.ok{color:var(--numA)}
@@ -242,13 +242,13 @@
   .corridor{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; padding:6vh 0}
   .cor-h{grid-column:1/-1; }
   .cor{border:1px solid var(--line); border-radius:3px; background:rgba(18,23,29,.72); padding:16px 18px;
-    font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); line-height:2}
-  .cor b{color:var(--bone); font-weight:500; letter-spacing:.16em; display:block}
-  .cor .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:12.5px}
+    font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); line-height:2}
+  .cor b{color:var(--bone); font-weight:500; letter-spacing:.13em; display:block}
+  .cor .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:15px}
 
   /* ch4 */
   .kpis3{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:18px; margin-top:1.3em; max-width:640px}
-  .teach{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--bone); line-height:2.2;
+  .teach{font-family:var(--mono); font-size:13.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--bone); line-height:2.1;
     display:inline-block; padding:12px 18px;
     background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
@@ -260,8 +260,8 @@
   #sealbox{position:relative; width:min(64vw,300px); margin:0 auto}
   #sealbox svg{width:100%; height:auto; display:block}
   #ring2{transition:stroke-dashoffset 1.4s var(--ease)}
-  #attn{font-family:var(--mono); font-size:9px; letter-spacing:.26em; text-transform:uppercase; color:var(--dim); margin-top:18px}
-  #attn .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:11px}
+  #attn{font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-top:18px}
+  #attn .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:13.5px}
   #sealcue{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); margin-top:10px; animation:cue 3s var(--ease) infinite}
   #sealcue .L.ar{font-family:var(--arbody); letter-spacing:.04em; text-transform:none; font-size:14.5px}
   #ch5.signed #sealcue{animation:none}
@@ -273,11 +273,11 @@
   .invite{margin-top:7vh}
   .invite .stmt{margin:0 auto; max-width:22ch}
   .channels{display:flex; gap:clamp(18px,5vw,44px); justify-content:center; flex-wrap:wrap; margin-top:4vh}
-  .channels a{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--bone);
+  .channels a{font-family:var(--mono); font-size:14px; letter-spacing:.15em; text-transform:uppercase; color:var(--bone);
     text-decoration:none; border-bottom:1px solid var(--bronze2); padding-bottom:5px}
   .channels a:hover{color:var(--bronze)}
   footer{position:relative; z-index:2; text-align:center; padding:10vh 0 42px;
-    font-family:var(--mono); font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:var(--dim)}
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim)}
 
   /* report + traces */
   #rep{position:fixed; z-index:5; pointer-events:none; opacity:0; transform:translate(-50%,-50%) scale(.97);
@@ -292,7 +292,7 @@
   body.holding #top{opacity:.12}
   body.holding, body.holding *{user-select:none; -webkit-user-select:none}
   #holdcue,#sealcue{user-select:none; -webkit-user-select:none}
-  #rep b{font-family:var(--mono); font-weight:500; font-size:13px; letter-spacing:.14em; color:var(--bronze); display:block; text-transform:uppercase}
+  #rep b{font-family:var(--mono); font-weight:500; font-size:16px; letter-spacing:.12em; color:var(--bronze); display:block; text-transform:uppercase}
   #rep b .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none}
   /* traces live UNDER the content (z1): glass panels swallow them, text never
      fights them — and they breathe, because nothing in the room is dead still */

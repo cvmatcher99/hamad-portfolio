@@ -1031,12 +1031,33 @@ function setActive(el){
   document.body.classList.toggle('dawnlift', !!el.closest('#ch4'));
   document.body.classList.toggle('festlift', el.getAttribute('data-form')==='bloom');
 }
-var io=new IntersectionObserver(function(es){
-  var best=null,ratio=0;
-  es.forEach(function(e){ if(e.isIntersecting && e.intersectionRatio>=ratio){ ratio=e.intersectionRatio; best=e.target; } });
+/* the director, rewritten deterministic: the drawing on stage is ALWAYS the one
+   whose text owns the reading line (45% of the viewport); in the gaps between
+   sections the handover happens exactly at the midpoint. The old
+   IntersectionObserver compared only the entries that changed that tick and
+   favoured short sections — the next drawing kept arriving over the wrong text. */
+var dirTick=false;
+function pickActive(){
+  dirTick=false;
+  var focusY=H*0.45, best=null, i, r;
+  for(i=0;i<formEls.length;i++){
+    r=formEls[i].getBoundingClientRect();
+    if(r.top<=focusY && r.bottom>=focusY){ best=formEls[i]; break; }
+  }
+  if(!best){
+    var bd=1e9;
+    for(i=0;i<formEls.length;i++){
+      r=formEls[i].getBoundingClientRect();
+      var dd=r.top>focusY ? r.top-focusY : focusY-r.bottom;
+      if(dd<bd){ bd=dd; best=formEls[i]; }
+    }
+  }
   if(best) setActive(best);
-},{threshold:[0.15,0.35,0.55], rootMargin:'-18% 0px -18%'});
-formEls.forEach(function(el){ io.observe(el); });
+}
+function dirQueue(){ if(!dirTick){ dirTick=true; requestAnimationFrame(pickActive); } }
+window.addEventListener('scroll',dirQueue,{passive:true});
+window.addEventListener('resize',dirQueue);
+setTimeout(pickActive,350);
 
 /* ch4 collapse: tall → base by progress */
 var colEl=document.getElementById('collapse'), colState='colTall';

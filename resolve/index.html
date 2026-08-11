@@ -236,6 +236,36 @@
   .chip.ok{color:var(--numC); border-color:var(--numA)}
   .chip.prop{color:var(--maroon); border-color:var(--maroon)}
   body.light .chip.ok{color:var(--numA)}
+  /* the career timeline — the spine draws itself, six stations cascade in,
+     nodes glow pearl on touch, years wear the living-pearl sweep */
+  #chrono .beat{min-height:auto; padding:10vh 0 6vh; display:block}
+  .tl{list-style:none; margin:2.6em 0 0; padding:0; position:relative; max-width:740px}
+  .tl::before{content:''; position:absolute; inset-inline-start:7px; top:8px; bottom:8px; width:2px;
+    background:linear-gradient(180deg, var(--numA), var(--numC), var(--numA));
+    transform:scaleY(0); transform-origin:top; transition:transform 2s var(--ease) .2s}
+  .tl.in::before{transform:scaleY(1)}
+  .tl li{position:relative; padding-inline-start:46px; margin-bottom:36px;
+    opacity:0; transform:translateX(-28px);
+    transition:opacity .9s var(--ease), transform .9s var(--ease)}
+  [dir="rtl"] .tl li{transform:translateX(28px)}
+  .tl.in li{opacity:1; transform:none}
+  .tl li::before{content:''; position:absolute; inset-inline-start:0; top:7px; width:16px; height:16px; border-radius:50%;
+    border:2px solid var(--numC); background:var(--ink);
+    transition:box-shadow .6s var(--ease), background .6s var(--ease)}
+  .tl li:hover::before{background:var(--numC); box-shadow:0 0 20px rgba(201,218,242,.55)}
+  body.light .tl li:hover::before{box-shadow:0 0 18px rgba(51,81,126,.45)}
+  .tl-y{display:inline-block; font-family:var(--mono); font-weight:500; font-size:15.5px; letter-spacing:.14em;
+    direction:ltr; unicode-bidi:isolate; color:var(--numC);
+    background:linear-gradient(100deg, var(--numA), var(--numB) 50%, var(--numC));
+    background-size:200% 100%; -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; animation:numsweep 5.5s linear infinite}
+  .tl-r{display:block; font-family:var(--mono); font-size:15.5px; letter-spacing:.06em; color:var(--bone);
+    margin-top:5px; line-height:1.85; direction:ltr; unicode-bidi:isolate; text-align:start}
+  @media (prefers-reduced-motion: reduce){
+    .tl::before{transform:scaleY(1); transition:none}
+    .tl li{opacity:1; transform:none; transition:none}
+    .tl-y{animation:none}
+  }
   .more{display:none}
 
   /* corridor */
@@ -412,6 +442,23 @@
           <div class="meta"><b>15+</b> <span class="L en">years · Al Ain · Abu Dhabi · UAE National</span><span class="L ar" lang="ar">عاماً · العين · أبوظبي · مواطن إماراتي</span></div>
         </div>
       </div>
+    </div></div>
+  </section>
+
+  <!-- CAREER TIMELINE -->
+  <section class="ch" id="chrono" data-form="path"
+    data-rep-en="2011 → today · six stations, one ascent"
+    data-rep-ar="من 2011 إلى اليوم · ست محطات في صعود واحد">
+    <div class="wrap"><div class="beat">
+      <div class="ex-eyebrow rv"><span class="eyebrow">Career Timeline</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المسار المهني</span></div>
+      <ol class="tl rv">
+        <li style="transition-delay:.15s"><span class="tl-y">2011</span><span class="tl-r">Accountant</span></li>
+        <li style="transition-delay:.3s"><span class="tl-y">2011–2018</span><span class="tl-r">Finance &amp; Administration Officer | Acting Unit Manager – Workshops &amp; Operations</span></li>
+        <li style="transition-delay:.45s"><span class="tl-y">2017–Present</span><span class="tl-r">Founder &amp; Owner | HBJ Construction and Well Maintenance</span></li>
+        <li style="transition-delay:.6s"><span class="tl-y">2018–2021</span><span class="tl-r">Senior Officer | Operations &amp; Trade Division</span></li>
+        <li style="transition-delay:.75s"><span class="tl-y">2021–Present</span><span class="tl-r">Senior Officer | Operations &amp; Center Management</span></li>
+        <li style="transition-delay:.9s"><span class="tl-y">2023–Present</span><span class="tl-r">Founder &amp; Managing Director | Tabashir AI</span></li>
+      </ol>
     </div></div>
   </section>
 
@@ -988,6 +1035,19 @@ var FORMS={
     } },
   flows:function(a){ for(var i=0;i<N;i++){ var lane=i%9, x=Math.random();
       put(a,i, x, 0.22+lane*0.062 + x*0.1 + (Math.random()-0.5)*0.012); } },
+  path:function(a){
+    /* the ascent: a rising path with six knots — one for each station of the career */
+    var K=[[0.14,0.80],[0.28,0.68],[0.42,0.57],[0.56,0.46],[0.70,0.35],[0.84,0.24]];
+    for(var i=0;i<N;i++){ var t=Math.random();
+      if(t<0.48){ var s=i%5, u=Math.random();
+        put(a,i, K[s][0]+(K[s+1][0]-K[s][0])*u+(Math.random()-0.5)*0.006,
+                 K[s][1]+(K[s+1][1]-K[s][1])*u+(Math.random()-0.5)*0.006); }
+      else if(t<0.84){ var k=K[i%6];
+        if(Math.random()<0.35){ var an=Math.random()*6.28318;
+          put(a,i, k[0]+Math.cos(an)*0.032*0.62, k[1]+Math.sin(an)*0.032); }
+        else put(a,i, k[0]+(g()-0.5)*0.030, k[1]+(g()-0.5)*0.030); }
+      else put(a,i, Math.random(), Math.random());
+    } },
   barley:function(a){
     /* the Barley Room — baked plate: racks of sprouting barley in a controlled
        room, lamps above, basin below, and the closed water loop with its arrows */

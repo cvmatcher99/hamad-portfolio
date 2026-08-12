@@ -56,10 +56,10 @@
   body.light #sealbox text{fill:#181D24}
   body.light #top:before{background:linear-gradient(180deg, rgba(242,239,231,.94) 45%, rgba(242,239,231,0))}
   *{box-sizing:border-box}
-  html{background:var(--ink); scroll-behavior:auto}
+  html{font-size:150%; background:var(--ink); scroll-behavior:auto}
   body{
     margin:0; background:var(--ink); color:var(--bone);
-    font-family:var(--arbody); font-size:16px; line-height:1.7;
+    font-family:var(--arbody); font-size:1.0000rem; line-height:1.7;
     -webkit-font-smoothing:antialiased; overflow-x:hidden;
   }
   ::selection{background:var(--bronze); color:var(--ink)}
@@ -93,11 +93,11 @@
   /* topbar */
   #top{position:fixed; z-index:6; top:0; inset-inline:0; display:flex; justify-content:space-between; align-items:center;
     padding:16px clamp(16px,4vw,40px); mix-blend-mode:normal}
-  #top .who{font-family:var(--mono); font-size:12px; letter-spacing:.18em; color:var(--dim); text-transform:uppercase}
-  #top .who .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:14.5px}
+  #top .who{font-family:var(--mono); font-size:0.7500rem; letter-spacing:.18em; color:var(--dim); text-transform:uppercase}
+  #top .who .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:0.9062rem}
   #langs{display:flex; gap:4px}
   #langs button{
-    font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; text-transform:uppercase;
+    font-family:var(--mono); font-size:0.7812rem; letter-spacing:.12em; text-transform:uppercase;
     background:none; border:1px solid transparent; color:var(--dim); padding:6px 12px; cursor:pointer; border-radius:2px}
   #langs button[aria-pressed="true"]{color:var(--bone); border-color:var(--line)}
   #langs button:hover{color:var(--bone)}
@@ -116,13 +116,13 @@
   .beat{min-height:92svh; display:flex; align-items:center}
   .beat.short{min-height:60svh}
 
-  .eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
+  .eyebrow{font-family:var(--mono); font-size:0.8125rem; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
   .stmt{margin:0; max-width:min(100%,760px)}
   #ch1 .beat, #ch4 .beat{justify-content:center}
   #ch1 .stmt, #ch4 .beat .stmt{text-align:center; max-width:24ch}
-  .stmt .en{font-family:var(--serif); font-size:clamp(1.5rem,3.6vw,2.5rem); line-height:1.35; display:block}
-  .stmt .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.35rem,3.2vw,2.2rem); line-height:1.85; display:block}
-  .sub{color:var(--dim); font-size:14px; max-width:58ch}
+  .stmt .en{font-family:var(--serif); font-size:clamp(1.5rem,5.40vw,2.5rem); line-height:1.35; display:block}
+  .stmt .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.35rem,4.80vw,2.2rem); line-height:1.85; display:block}
+  .sub{color:var(--dim); font-size:0.8750rem; max-width:58ch}
 
   /* reveals */
   .rv{opacity:0; transform:translateY(18px); transition:opacity var(--d-reveal) var(--ease), transform var(--d-reveal) var(--ease)}
@@ -131,9 +131,9 @@
 
   /* chapter 2 */
   #holdcue{display:flex; flex-direction:column; align-items:center; gap:30px;
-    font-family:var(--mono); font-size:21px; letter-spacing:.3em; text-transform:uppercase; color:var(--bone);
+    font-family:var(--mono); font-size:1.3125rem; letter-spacing:.3em; text-transform:uppercase; color:var(--bone);
     animation:cue 3s var(--ease) infinite}
-  #holdcue .L.ar{font-family:var(--arbody); letter-spacing:.1em; font-size:27px}
+  #holdcue .L.ar{font-family:var(--arbody); letter-spacing:.1em; font-size:1.6875rem}
   #holdcue::before{content:''; width:92px; height:92px; border-radius:50%; flex:none;
     border:1px solid rgba(237,231,218,.6);
     background:radial-gradient(circle, rgba(237,231,218,.95) 0 7px, transparent 8px);
@@ -141,13 +141,13 @@
   @keyframes cue{0%,100%{opacity:.6}50%{opacity:1}}
   @keyframes cuering{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
   #idcard{text-align:center; width:100%}
-  #idcard .nm-ar{font-family:var(--kufi); font-weight:500; font-size:clamp(2.1rem,6vw,3.9rem); line-height:1.4; margin:0}
-  #idcard .nm-en{font-family:var(--serif); font-size:clamp(1.5rem,4.2vw,2.6rem); letter-spacing:.14em; text-transform:uppercase; margin:.2em 0 0}
-  #idcard .role{font-family:var(--mono); font-size:16px; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); margin-top:1.5em; line-height:2}
+  #idcard .nm-ar{font-family:var(--kufi); font-weight:500; font-size:clamp(2.1rem,9.00vw,3.9rem); line-height:1.4; margin:0}
+  #idcard .nm-en{font-family:var(--serif); font-size:clamp(1.5rem,6.30vw,2.6rem); letter-spacing:.14em; text-transform:uppercase; margin:.2em 0 0}
+  #idcard .role{font-family:var(--mono); font-size:1.0000rem; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); margin-top:1.5em; line-height:2}
   #idcard .one{margin:1.8em auto 0; max-width:34ch}
-  #idcard .one .en{font-family:var(--serif); font-size:clamp(1.25rem,3vw,1.8rem); line-height:1.35}
-  #idcard .one .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.15rem,2.7vw,1.6rem); line-height:1.8}
-  #idcard .meta{font-family:var(--mono); font-size:13.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-top:2.2em}
+  #idcard .one .en{font-family:var(--serif); font-size:clamp(1.25rem,4.50vw,1.8rem); line-height:1.35}
+  #idcard .one .ar{font-family:var(--kufi); font-weight:500; font-size:clamp(1.15rem,4.05vw,1.6rem); line-height:1.8}
+  #idcard .meta{font-family:var(--mono); font-size:0.8438rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-top:2.2em}
   #idcard .meta b{color:var(--bronze); font-weight:500; font-variant-numeric:tabular-nums}
   /* the portrait: emerges from the ink, warm-graded to bone — never a card */
   #portrait{width:min(46vw,240px); margin:0 auto 1.8em}
@@ -160,14 +160,14 @@
     background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light #brief p{background:rgba(242,239,231,.62)}
-  #brief .L.en{font-family:var(--serif); font-size:19px; line-height:1.85; display:block}
-  #brief .L.ar{font-family:var(--arbody); font-size:18px; line-height:2.1; display:block}
+  #brief .L.en{font-family:var(--serif); font-size:1.1875rem; line-height:1.85; display:block}
+  #brief .L.ar{font-family:var(--arbody); font-size:1.1250rem; line-height:2.1; display:block}
   @media (min-width:900px){ #brief p{columns:2; column-gap:46px} }
   #bgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px 30px; margin-top:2.4em}
   @media (max-width:720px){ #bgrid{grid-template-columns:repeat(2,1fr)} }
-  #bgrid .kpi b{font-size:clamp(1.6rem,3.4vw,2.3rem)}
-  #bgrid .kpi span{font-size:11px; letter-spacing:.14em}
-  #bgrid .kpi span .L.ar{font-size:14px}
+  #bgrid .kpi b{font-size:clamp(1.6rem,5.10vw,2.3rem)}
+  #bgrid .kpi span{font-size:0.6875rem; letter-spacing:.14em}
+  #bgrid .kpi span .L.ar{font-size:0.8750rem}
   /* pre-reveal, the hidden identity takes NO layout space — so the Hold cue sits
      dead-centre of the opening screen */
   #ch2{padding:0}
@@ -184,7 +184,7 @@
      so two of them can never share a frame — spacing alone could never guarantee it */
   .exhibit{min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:9vh 0}
   .ex-eyebrow{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
-  .plate{font-family:var(--mono); font-size:13.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
+  .plate{font-family:var(--mono); font-size:0.8438rem; letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
     border-top:1px solid var(--line); padding-top:12px; margin-top:10px; line-height:2}
   .exhibit .stmt{margin-top:.9em}
   .kpirow{display:flex; align-items:flex-end; gap:clamp(16px,4vw,34px); flex-wrap:wrap; margin-top:1.3em}
@@ -193,7 +193,7 @@
   body{--numA:#93AACB; --numB:#F2ECDD; --numC:#C9DAF2}
   body.light{--numA:#33517E; --numB:#10151C; --numC:#3F6293}
   .kpi b{display:block; direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums;
-    font-size:clamp(2.6rem,8vw,4.6rem); line-height:1.05;
+    font-size:clamp(2.6rem,12.00vw,4.6rem); line-height:1.05;
     color:var(--numC);
     background:linear-gradient(100deg, var(--numA) 0%, var(--numB) 32%, var(--numC) 50%, var(--numB) 68%, var(--numA) 100%);
     background-size:230% 100%;
@@ -206,35 +206,35 @@
   .kpi:hover b, .kpi:active b{transform:scale(1.045)}
   @keyframes numsweep{0%{background-position:230% 0}100%{background-position:0% 0}}
   @media (prefers-reduced-motion: reduce){ .kpi b{animation:none} }
-  .kpi span{display:block; font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-top:8px}
-  .kpi span .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:15.5px}
+  .kpi span{display:block; font-family:var(--mono); font-size:0.8125rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-top:8px}
+  .kpi span .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:0.9688rem}
   .deepwrap{margin-top:1.4em; max-width:min(100%,740px)}
   /* details are always on display, each in a frosted glass panel that isolates
      the small text from the particle field (client direction 2026-08-09) */
-  .deep{color:var(--bone); font-size:16.5px; margin:0; padding:16px 20px;
+  .deep{color:var(--bone); font-size:1.0312rem; margin:0; padding:16px 20px;
     background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light .deep{background:rgba(242,239,231,.62)}
   /* the dossier — evidence, operations and documentation on demand, in the
      Al-Salamat audit method: every claim traceable to a named file and page */
-  .dsr-btn{font-family:var(--mono); font-size:13.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone);
+  .dsr-btn{font-family:var(--mono); font-size:0.8438rem; letter-spacing:.14em; text-transform:uppercase; color:var(--bone);
     background:none; border:1px solid var(--line); border-radius:8px; padding:11px 20px; margin-top:12px; cursor:pointer; min-height:46px}
   .dsr-btn:hover{border-color:var(--bronze2)}
-  .dsr-btn .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:16px}
+  .dsr-btn .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:1.0000rem}
   .dossier{margin-top:12px; padding:18px 22px; border:1px solid var(--line); border-radius:10px;
     background:rgba(16,21,27,.58); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light .dossier{background:rgba(242,239,231,.62)}
-  .ds-h{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin:16px 0 8px}
+  .ds-h{font-family:var(--mono); font-size:0.7812rem; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin:16px 0 8px}
   .ds-sec:first-child .ds-h{margin-top:0}
-  .ds-steps{margin:0; padding-inline-start:1.3em; font-size:16px; color:var(--bone); line-height:2}
+  .ds-steps{margin:0; padding-inline-start:1.3em; font-size:1.0000rem; color:var(--bone); line-height:2}
   .ds-steps li{margin-bottom:4px}
   .ds-ev{display:flex; gap:10px; flex-wrap:wrap}
   .ds-ev figure{margin:0; flex:1 1 150px; max-width:235px}
   .ds-ev img{width:100%; display:block; border-radius:8px; border:1px solid var(--line)}
-  .ds-ev figcaption{font-size:13.5px; color:var(--dim); margin-top:6px; line-height:1.7}
-  .ds-src{font-size:15px; color:var(--dim); line-height:2.1}
-  .ds-src b{font-family:var(--mono); font-size:13px; color:var(--bone); font-weight:500; direction:ltr; unicode-bidi:isolate}
-  .chip{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.12em; border:1px solid var(--line); border-radius:99px; padding:3px 12px; margin-inline-start:8px; color:var(--dim); vertical-align:middle}
+  .ds-ev figcaption{font-size:0.8438rem; color:var(--dim); margin-top:6px; line-height:1.7}
+  .ds-src{font-size:0.9375rem; color:var(--dim); line-height:2.1}
+  .ds-src b{font-family:var(--mono); font-size:0.8125rem; color:var(--bone); font-weight:500; direction:ltr; unicode-bidi:isolate}
+  .chip{display:inline-block; font-family:var(--mono); font-size:0.6875rem; letter-spacing:.12em; border:1px solid var(--line); border-radius:99px; padding:3px 12px; margin-inline-start:8px; color:var(--dim); vertical-align:middle}
   .chip.ok{color:var(--numC); border-color:var(--numA)}
   .chip.prop{color:var(--maroon); border-color:var(--maroon)}
   body.light .chip.ok{color:var(--numA)}
@@ -256,12 +256,12 @@
     transition:box-shadow .6s var(--ease), background .6s var(--ease)}
   .tl li:hover::before{background:var(--numC); box-shadow:0 0 20px rgba(201,218,242,.55)}
   body.light .tl li:hover::before{box-shadow:0 0 18px rgba(51,81,126,.45)}
-  .tl-y{display:inline-block; font-family:var(--mono); font-weight:500; font-size:15.5px; letter-spacing:.14em;
+  .tl-y{display:inline-block; font-family:var(--mono); font-weight:500; font-size:0.9688rem; letter-spacing:.14em;
     direction:ltr; unicode-bidi:isolate; color:var(--numC);
     background:linear-gradient(100deg, var(--numA), var(--numB) 50%, var(--numC));
     background-size:200% 100%; -webkit-background-clip:text; background-clip:text;
     -webkit-text-fill-color:transparent; animation:numsweep 5.5s linear infinite}
-  .tl-r{display:block; font-family:var(--mono); font-size:15.5px; letter-spacing:.06em; color:var(--bone);
+  .tl-r{display:block; font-family:var(--mono); font-size:0.9688rem; letter-spacing:.06em; color:var(--bone);
     margin-top:5px; line-height:1.85; direction:ltr; unicode-bidi:isolate; text-align:start}
   @media (prefers-reduced-motion: reduce){
     .tl::before{transform:scaleY(1); transition:none}
@@ -275,28 +275,28 @@
     min-height:100svh; align-content:center; padding:9vh 0}
   .cor-h{grid-column:1/-1; }
   .cor{border:1px solid var(--line); border-radius:3px; background:rgba(18,23,29,.72); padding:16px 18px;
-    font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); line-height:2}
+    font-family:var(--mono); font-size:0.8125rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); line-height:2}
   .cor b{color:var(--bone); font-weight:500; letter-spacing:.13em; display:block}
-  .cor .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:15px}
+  .cor .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:0.9375rem}
 
   /* ch4 */
   .kpis3{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:18px; margin-top:1.3em; max-width:640px}
-  .teach{font-family:var(--mono); font-size:13.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--bone); line-height:2.1;
+  .teach{font-family:var(--mono); font-size:0.8438rem; letter-spacing:.13em; text-transform:uppercase; color:var(--bone); line-height:2.1;
     display:inline-block; padding:12px 18px;
     background:rgba(16,21,27,.58); border:1px solid var(--line); border-radius:10px;
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
   body.light .teach{background:rgba(242,239,231,.62)}
-  .teach .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:13px}
+  .teach .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none; font-size:0.8125rem}
 
   /* ch5 */
   #ch5 .beat{flex-direction:column; justify-content:center; gap:0; text-align:center}
   #sealbox{position:relative; width:min(64vw,300px); margin:0 auto}
   #sealbox svg{width:100%; height:auto; display:block}
   #ring2{transition:stroke-dashoffset 1.4s var(--ease)}
-  #attn{font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-top:18px}
-  #attn .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:13.5px}
-  #sealcue{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); margin-top:10px; animation:cue 3s var(--ease) infinite}
-  #sealcue .L.ar{font-family:var(--arbody); letter-spacing:.04em; text-transform:none; font-size:14.5px}
+  #attn{font-family:var(--mono); font-size:0.7188rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-top:18px}
+  #attn .L.ar{font-family:var(--arbody); letter-spacing:.06em; font-size:0.8438rem}
+  #sealcue{font-family:var(--mono); font-size:0.7500rem; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); margin-top:10px; animation:cue 3s var(--ease) infinite}
+  #sealcue .L.ar{font-family:var(--arbody); letter-spacing:.04em; text-transform:none; font-size:0.9062rem}
   #ch5.signed #sealcue{animation:none}
   #ch5.signed #sealcue{color:var(--maroon)}
   /* the wax glow — appears only once the visitor has sealed */
@@ -306,11 +306,11 @@
   .invite{margin-top:7vh}
   .invite .stmt{margin:0 auto; max-width:22ch}
   .channels{display:flex; gap:clamp(18px,5vw,44px); justify-content:center; flex-wrap:wrap; margin-top:4vh}
-  .channels a{font-family:var(--mono); font-size:14px; letter-spacing:.15em; text-transform:uppercase; color:var(--bone);
+  .channels a{font-family:var(--mono); font-size:0.8750rem; letter-spacing:.15em; text-transform:uppercase; color:var(--bone);
     text-decoration:none; border-bottom:1px solid var(--bronze2); padding-bottom:5px}
   .channels a:hover{color:var(--bronze)}
   footer{position:relative; z-index:2; text-align:center; padding:10vh 0 42px;
-    font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim)}
+    font-family:var(--mono); font-size:0.7188rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim)}
 
   /* report + traces */
   #rep{position:fixed; z-index:5; pointer-events:none; opacity:0; transform:translate(-50%,-50%) scale(.97);
@@ -325,7 +325,7 @@
   body.holding #top{opacity:.12}
   body.holding, body.holding *{user-select:none; -webkit-user-select:none}
   #holdcue,#sealcue{user-select:none; -webkit-user-select:none}
-  #rep b{font-family:var(--mono); font-weight:500; font-size:16px; letter-spacing:.12em; color:var(--bronze); display:block; text-transform:uppercase}
+  #rep b{font-family:var(--mono); font-weight:500; font-size:1.0000rem; letter-spacing:.12em; color:var(--bronze); display:block; text-transform:uppercase}
   #rep b .L.ar{font-family:var(--arbody); letter-spacing:.02em; text-transform:none}
   /* traces live UNDER the content (z1): glass panels swallow them, text never
      fights them — and they breathe, because nothing in the room is dead still */
@@ -348,8 +348,8 @@
     .exhibit .stmt{order:4; margin-top:.75em}
     .exhibit .deepwrap{order:5}
     .exhibit .teach{order:6}
-    .exhibit .stmt .en{font-size:clamp(1.35rem,5vw,1.8rem)}
-    .exhibit .stmt .ar{font-size:clamp(1.25rem,4.6vw,1.7rem)}
+    .exhibit .stmt .en{font-size:clamp(1.35rem,7.50vw,1.8rem)}
+    .exhibit .stmt .ar{font-size:clamp(1.25rem,6.90vw,1.7rem)}
     .kpis3{grid-template-columns:1fr; gap:20px}
     .corridor{grid-template-columns:1fr}
     /* on a small screen the field must recede — the text always wins */
@@ -370,8 +370,8 @@
     .beat.short{min-height:auto}
     /* phone in landscape: a full viewport is too short to hold a slide — let it flow */
     .exhibit,.corridor,#chrono .beat{min-height:auto; padding:8vh 0}
-    .stmt .en{font-size:clamp(1.6rem,4.6vw,2.4rem)}
-    .stmt .ar{font-size:clamp(1.4rem,4vw,2rem)}
+    .stmt .en{font-size:clamp(1.6rem,6.90vw,2.4rem)}
+    .stmt .ar{font-size:clamp(1.4rem,6.00vw,2rem)}
     #sealbox{width:min(38vw,190px)}
   }
   /* desktop composition — the museum wall */
@@ -381,9 +381,9 @@
     .exhibit .stmt{margin-top:1.2em; max-width:780px}
     .exhibit .kpirow{margin-top:1.6em; gap:clamp(28px,5vw,64px)}
     .exhibit .deepwrap{margin-top:1.8em; max-width:800px}
-    .stmt .en{font-size:clamp(1.7rem,2.1vw,2.5rem)}
-    .stmt .ar{font-size:clamp(1.5rem,1.9vw,2.3rem)}
-    .kpi b{font-size:clamp(2.8rem,5.5vw,4.6rem)}
+    .stmt .en{font-size:clamp(1.7rem,3.15vw,2.5rem)}
+    .stmt .ar{font-size:clamp(1.5rem,2.85vw,2.3rem)}
+    .kpi b{font-size:clamp(2.8rem,8.25vw,4.6rem)}
     .kpis3{grid-template-columns:repeat(3,auto); column-gap:44px; max-width:none}
   }
   @media (prefers-reduced-motion: reduce){

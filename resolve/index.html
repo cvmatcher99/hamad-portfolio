@@ -112,7 +112,7 @@
   /* layout */
   main{position:relative; z-index:2}
   .wrap{max-width:1000px; margin:0 auto; padding:0 clamp(20px,5vw,52px)}
-  section.ch{position:relative; padding:8vh 0}
+  section.ch{position:relative; padding:14vh 0}
   .beat{min-height:92svh; display:flex; align-items:center}
   .beat.short{min-height:60svh}
 
@@ -180,7 +180,9 @@
   /* exhibits */
   .inscription{text-align:center; width:100%}
   .inscription .stmt{margin:0 auto; max-width:26ch}
-  .exhibit{padding:14vh 0}
+  /* breathing room between slides: each exhibit holds the stage alone long enough
+     for its formation to finish arriving before the next one is called */
+  .exhibit{padding:26vh 0}
   .ex-eyebrow{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
   .plate{font-family:var(--mono); font-size:13.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
     border-top:1px solid var(--line); padding-top:12px; margin-top:10px; line-height:2}
@@ -238,7 +240,7 @@
   body.light .chip.ok{color:var(--numA)}
   /* the career timeline — the spine draws itself, six stations cascade in,
      nodes glow pearl on touch, years wear the living-pearl sweep */
-  #chrono .beat{min-height:auto; padding:10vh 0 6vh; display:block}
+  #chrono .beat{min-height:auto; padding:16vh 0 14vh; display:block}
   .tl{list-style:none; margin:2.6em 0 0; padding:0; position:relative; max-width:740px}
   .tl::before{content:''; position:absolute; inset-inline-start:7px; top:8px; bottom:8px; width:2px;
     background:linear-gradient(180deg, var(--numA), var(--numC), var(--numA));
@@ -269,7 +271,7 @@
   .more{display:none}
 
   /* corridor */
-  .corridor{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; padding:6vh 0}
+  .corridor{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; padding:14vh 0}
   .cor-h{grid-column:1/-1; }
   .cor{border:1px solid var(--line); border-radius:3px; background:rgba(18,23,29,.72); padding:16px 18px;
     font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); line-height:2}
@@ -338,7 +340,7 @@
   /* phone composition — the number is the object, the sentence is its caption */
   @media (max-width:720px){
     .stmt{max-width:none}
-    .exhibit{display:flex; flex-direction:column; padding:11vh 0}
+    .exhibit{display:flex; flex-direction:column; padding:20vh 0}
     .exhibit .ex-eyebrow{order:1}
     .exhibit .plate{order:2}
     .exhibit .kpirow,.exhibit .kpis3{order:3; margin-top:1.2em}
@@ -373,7 +375,7 @@
   /* desktop composition — the museum wall */
   /* desktop: showcase flow — full-width statement lines, numbers in one row beneath */
   @media (min-width:980px){
-    .exhibit{padding:15vh 0}
+    .exhibit{padding:28vh 0}
     .exhibit .stmt{margin-top:1.2em; max-width:780px}
     .exhibit .kpirow{margin-top:1.6em; gap:clamp(28px,5vw,64px)}
     .exhibit .deepwrap{margin-top:1.8em; max-width:800px}

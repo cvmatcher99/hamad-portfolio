@@ -190,12 +190,14 @@
   .kpirow{display:flex; align-items:flex-end; gap:clamp(16px,4vw,34px); flex-wrap:wrap; margin-top:1.3em}
   /* the numbers: living pearl — an ivory-blue metallic sweep in constant slow
      motion, counted up on arrival, breathing on hover. (bronze retired per client) */
-  body{--numA:#93AACB; --numB:#F2ECDD; --numC:#C9DAF2}
-  body.light{--numA:#33517E; --numB:#10151C; --numC:#3F6293}
+  /* numD — the bronze glint: the colour that once meant proof returns as a warm
+     band travelling through the cool pearl, the way real metal catches light */
+  body{--numA:#93AACB; --numB:#F2ECDD; --numC:#C9DAF2; --numD:#C79A63}
+  body.light{--numA:#33517E; --numB:#10151C; --numC:#3F6293; --numD:#8A6844}
   .kpi b{display:block; direction:ltr; unicode-bidi:isolate; font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums;
     font-size:clamp(2.6rem,12.00vw,4.6rem); line-height:1.05;
     color:var(--numC);
-    background:linear-gradient(100deg, var(--numA) 0%, var(--numB) 32%, var(--numC) 50%, var(--numB) 68%, var(--numA) 100%);
+    background:linear-gradient(100deg, var(--numA) 0%, var(--numD) 17%, var(--numB) 33%, var(--numC) 50%, var(--numB) 67%, var(--numD) 83%, var(--numA) 100%);
     background-size:230% 100%;
     -webkit-background-clip:text; background-clip:text;
     -webkit-text-fill-color:transparent;
@@ -258,7 +260,7 @@
   body.light .tl li:hover::before{box-shadow:0 0 18px rgba(51,81,126,.45)}
   .tl-y{display:inline-block; font-family:var(--mono); font-weight:500; font-size:0.9688rem; letter-spacing:.14em;
     direction:ltr; unicode-bidi:isolate; color:var(--numC);
-    background:linear-gradient(100deg, var(--numA), var(--numB) 50%, var(--numC));
+    background:linear-gradient(100deg, var(--numA), var(--numD) 25%, var(--numB) 50%, var(--numC));
     background-size:200% 100%; -webkit-background-clip:text; background-clip:text;
     -webkit-text-fill-color:transparent; animation:numsweep 5.5s linear infinite}
   .tl-r{display:block; font-family:var(--mono); font-size:0.9688rem; letter-spacing:.06em; color:var(--bone);

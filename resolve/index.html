@@ -242,22 +242,30 @@
   body.light .chip.ok{color:var(--numA)}
   /* the career timeline — the spine draws itself, six stations cascade in,
      nodes glow pearl on touch, years wear the living-pearl sweep */
-  #chrono .beat{min-height:100svh; padding:9vh 0; display:flex; flex-direction:column; justify-content:center}
-  .tl{list-style:none; margin:2.6em 0 0; padding:0; position:relative; max-width:740px}
+  #chrono .beat{min-height:100svh; padding:9vh 0; display:flex; flex-direction:column; justify-content:center; align-items:stretch}
+  /* the plate is read AFTER the piece, like a museum caption — and sits at the edge */
+  #chrono .ex-eyebrow{order:9; margin-top:3.4em}
+  .exhibit .ex-eyebrow{order:9; margin-top:3.4em}
+  .tl{list-style:none; margin:0; padding:0; position:relative; max-width:740px}
+  /* the spine is a dim rail; the lit head is drawn BY the scroll and undrawn when
+     the visitor climbs back up — the career is travelled, not merely displayed */
   .tl::before{content:''; position:absolute; inset-inline-start:7px; top:8px; bottom:8px; width:2px;
-    background:linear-gradient(180deg, var(--numA), var(--numC), var(--numA));
-    transform:scaleY(0); transform-origin:top; transition:transform 2s var(--ease) .2s}
-  .tl.in::before{transform:scaleY(1)}
+    background:rgba(147,170,203,.16)}
+  .tl::after{content:''; position:absolute; inset-inline-start:7px; top:8px; width:2px;
+    height:calc(var(--tlp,0) * (100% - 16px));
+    background:linear-gradient(180deg, var(--numA), var(--numD), var(--numC));
+    box-shadow:0 0 14px rgba(201,218,242,.45); transition:height .16s linear}
   .tl li{position:relative; padding-inline-start:46px; margin-bottom:36px;
-    opacity:0; transform:translateX(-28px);
-    transition:opacity .9s var(--ease), transform .9s var(--ease)}
-  [dir="rtl"] .tl li{transform:translateX(28px)}
-  .tl.in li{opacity:1; transform:none}
+    opacity:.28; transform:translateY(12px);
+    transition:opacity .55s var(--ease), transform .55s var(--ease)}
+  .tl li.on{opacity:1; transform:none}
   .tl li::before{content:''; position:absolute; inset-inline-start:0; top:7px; width:16px; height:16px; border-radius:50%;
-    border:2px solid var(--numC); background:var(--ink);
-    transition:box-shadow .6s var(--ease), background .6s var(--ease)}
-  .tl li:hover::before{background:var(--numC); box-shadow:0 0 20px rgba(201,218,242,.55)}
-  body.light .tl li:hover::before{box-shadow:0 0 18px rgba(51,81,126,.45)}
+    border:2px solid rgba(147,170,203,.4); background:var(--ink);
+    transition:box-shadow .5s var(--ease), background .5s var(--ease), border-color .5s var(--ease), transform .5s var(--ease)}
+  .tl li.on::before{border-color:var(--numC); background:var(--numD); box-shadow:0 0 18px rgba(199,154,99,.5)}
+  .tl li.now::before{transform:scale(1.4); box-shadow:0 0 28px rgba(201,218,242,.65)}
+  .tl li:hover::before{background:var(--numC)}
+  body.light .tl li.on::before{box-shadow:0 0 16px rgba(138,104,68,.45)}
   .tl-y{display:inline-block; font-family:var(--mono); font-weight:500; font-size:0.9688rem; letter-spacing:.14em;
     direction:ltr; unicode-bidi:isolate; color:var(--numC);
     background:linear-gradient(100deg, var(--numA), var(--numD) 25%, var(--numB) 50%, var(--numC));
@@ -266,7 +274,7 @@
   .tl-r{display:block; font-family:var(--mono); font-size:0.9688rem; letter-spacing:.06em; color:var(--bone);
     margin-top:5px; line-height:1.85; direction:ltr; unicode-bidi:isolate; text-align:start}
   @media (prefers-reduced-motion: reduce){
-    .tl::before{transform:scaleY(1); transition:none}
+    .tl::after{height:calc(100% - 16px); transition:none}
     .tl li{opacity:1; transform:none; transition:none}
     .tl-y{animation:none}
   }
@@ -344,7 +352,7 @@
   @media (max-width:720px){
     .stmt{max-width:none}
     .exhibit{display:flex; flex-direction:column; padding:11vh 0}
-    .exhibit .ex-eyebrow{order:1}
+    .exhibit .ex-eyebrow{order:9}
     .exhibit .plate{order:2}
     .exhibit .kpirow,.exhibit .kpis3{order:3; margin-top:1.2em}
     .exhibit .stmt{order:4; margin-top:.75em}
@@ -458,12 +466,12 @@
     <div class="wrap"><div class="beat">
       <div class="ex-eyebrow rv"><span class="eyebrow">Career Timeline</span><span class="eyebrow L ar" lang="ar" style="font-family:var(--arbody); letter-spacing:.04em">المسار المهني</span></div>
       <ol class="tl rv">
-        <li style="transition-delay:.15s"><span class="tl-y">2011</span><span class="tl-r">Accountant</span></li>
-        <li style="transition-delay:.3s"><span class="tl-y">2011–2018</span><span class="tl-r">Finance &amp; Administration Officer | Acting Unit Manager – Workshops &amp; Operations</span></li>
-        <li style="transition-delay:.45s"><span class="tl-y">2017–Present</span><span class="tl-r">Founder &amp; Owner | HBJ Construction and Well Maintenance</span></li>
-        <li style="transition-delay:.6s"><span class="tl-y">2018–2021</span><span class="tl-r">Senior Officer | Operations &amp; Trade Division</span></li>
-        <li style="transition-delay:.75s"><span class="tl-y">2021–Present</span><span class="tl-r">Senior Officer | Operations &amp; Center Management</span></li>
-        <li style="transition-delay:.9s"><span class="tl-y">2023–Present</span><span class="tl-r">Founder &amp; Managing Director | Tabashir AI</span></li>
+        <li><span class="tl-y">2011</span><span class="tl-r">Accountant</span></li>
+        <li><span class="tl-y">2011–2018</span><span class="tl-r">Finance &amp; Administration Officer | Acting Unit Manager – Workshops &amp; Operations</span></li>
+        <li><span class="tl-y">2017–Present</span><span class="tl-r">Founder &amp; Owner | HBJ Construction and Well Maintenance</span></li>
+        <li><span class="tl-y">2018–2021</span><span class="tl-r">Senior Officer | Operations &amp; Trade Division</span></li>
+        <li><span class="tl-y">2021–Present</span><span class="tl-r">Senior Officer | Operations &amp; Center Management</span></li>
+        <li><span class="tl-y">2023–Present</span><span class="tl-r">Founder &amp; Managing Director | Tabashir AI</span></li>
       </ol>
     </div></div>
   </section>
@@ -921,12 +929,15 @@ var tiltA=0, tiltGoalA=0, tiltX=0, tiltGoalX=0, baseG=null;
 /* Scroll parallax — the same idea for every phone, needing no sensor at all:
    the field lags behind the reading and settles back. */
 var paraY=0, paraGoal=0;
+/* how far the visitor has travelled the career path (0..1), and whether the
+   rising-path formation is the one on stage */
+var PROG=0, PROG_ON=0;
 var drift = reduced?0:0.012, driftGoal=drift;
 
 function compile(src,type){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
 function initGL(){
   var vs="attribute vec2 aFrom;attribute vec2 aTo;attribute vec4 aMeta;"+
-  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt;uniform vec2 uHoldPt,uAsp,uMouse;uniform vec3 uTilt;varying float vA;"+
+  "uniform float uMorph,uTime,uHold,uDrift,uPx,uMAmt,uProg,uProgOn;uniform vec2 uHoldPt,uAsp,uMouse;uniform vec3 uTilt;varying float vA;"+
   "float es(float t){return t*t*(3.0-2.0*t);}"+
   /* staggered morph: each particle departs in its own moment — a wave, not a front */
   "void main(){float st=fract(aMeta.x*7.3)*0.35;float m=es(clamp((uMorph-st)/0.65,0.0,1.0));vec2 p=mix(aFrom,aTo,m);float s=aMeta.x;"+
@@ -942,6 +953,10 @@ function initGL(){
      what the eye actually reads as a room holding its own against your hand. */
   "p+=vec2(uTilt.y,uTilt.z)*(0.35+1.3*aMeta.z)*(1.0-h);"+
   "p=mix(p,ring,h);vA=aMeta.w*(0.55+0.45*h);"+
+  /* the path lights up behind the timeline: everything the visitor has already
+     travelled burns brighter, everything ahead waits in the dark */
+  "float px01=p.x*0.5+0.5;float lit=1.0-smoothstep(uProg-0.07,uProg+0.04,px01);"+
+  "vA*=mix(1.0, mix(0.3,1.45,lit), uProgOn);"+
   "gl_Position=vec4(p,0.0,1.0);gl_PointSize=aMeta.y*(1.0+h*0.4)*uPx;}";
   var fs="precision mediump float;varying float vA;uniform float uLight;"+
   "void main(){vec2 c=gl_PointCoord-0.5;float d=dot(c,c);float a=smoothstep(0.25,0.04,d)*vA*(1.0+0.4*uLight);"+
@@ -955,7 +970,7 @@ function initGL(){
   gl.attachShader(prog,compile(fs,gl.FRAGMENT_SHADER));
   gl.linkProgram(prog); gl.useProgram(prog);
   aFromB=gl.createBuffer(); aToB=gl.createBuffer(); aMetaB=gl.createBuffer();
-  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt','uTilt','uLight'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
+  ['uMorph','uTime','uHold','uDrift','uPx','uHoldPt','uAsp','uMouse','uMAmt','uTilt','uLight','uProg','uProgOn'].forEach(function(n){U[n]=gl.getUniformLocation(prog,n)});
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
   gl.clearColor(0.047,0.063,0.078,1);
   for(var i=0;i<N;i++){ meta[i*4]=Math.random(); meta[i*4+1]=1.2+Math.random()*1.5; meta[i*4+2]=Math.random(); meta[i*4+3]=0.35+Math.random()*0.5; }
@@ -1238,6 +1253,8 @@ function frame(ts){
   tiltX+=(tiltGoalX-tiltX)*Math.min(1,dt*2.6);
   paraGoal*=Math.exp(-dt*5); paraY+=(paraGoal-paraY)*Math.min(1,dt*6);
   gl.uniform3f(U.uTilt,tiltA,tiltX,paraY);
+  gl.uniform1f(U.uProg,PROG);
+  gl.uniform1f(U.uProgOn,PROG_ON);
   if(THEME_LIGHT){
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.clearColor(0.949,0.937,0.906,1);
@@ -1267,7 +1284,9 @@ var activeEl=null;
 function setActive(el){
   if(el===activeEl) return;
   activeEl=el;
-  setForm(el.getAttribute('data-form'));
+  var fname=el.getAttribute('data-form');
+  PROG_ON = (fname==='path') ? 1 : 0;
+  setForm(fname);
   document.body.classList.toggle('dawnlift', !!el.closest('#ch4'));
   document.body.classList.toggle('festlift', el.getAttribute('data-form')==='bloom');
 }
@@ -1293,6 +1312,29 @@ function pickActive(){
     }
   }
   if(best) setActive(best);
+  updateTimeline();
+}
+/* the timeline answers the scroll in both directions: the lit head advances and
+   retreats, stations wake as it passes and sleep when the visitor climbs back,
+   and the nearest station to the reading line takes the focus */
+var tlEl=document.querySelector('.tl');
+var tlItems=tlEl?[].slice.call(tlEl.querySelectorAll('li')):[];
+function updateTimeline(){
+  if(!tlEl) return;
+  var r=tlEl.getBoundingClientRect();
+  var p=(H*0.66 - r.top)/Math.max(1,r.height);
+  p=Math.max(0,Math.min(1,p));
+  PROG=p;
+  tlEl.style.setProperty('--tlp',p.toFixed(4));
+  var head=r.top + p*r.height, best=null, bd=1e9;
+  for(var i=0;i<tlItems.length;i++){
+    var ir=tlItems[i].getBoundingClientRect(), ny=ir.top+15;
+    var on = ny <= head+6;
+    tlItems[i].classList.toggle('on', on);
+    var dd=Math.abs(ny-head);
+    if(on && dd<bd){ bd=dd; best=tlItems[i]; }
+  }
+  for(var j=0;j<tlItems.length;j++){ tlItems[j].classList.toggle('now', tlItems[j]===best); }
 }
 function dirQueue(){ if(!dirTick){ dirTick=true; requestAnimationFrame(pickActive); } }
 window.addEventListener('scroll',dirQueue,{passive:true});
